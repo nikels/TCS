@@ -1,0 +1,137 @@
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	
+	<title>theCollectiveShift&reg; | Clang | Biography</title>
+	
+	<!-- CSS ON ALL PAGES -->
+	<link rel="stylesheet" href="css/reset.css" type="text/css" />
+	<link rel="stylesheet" href="css/design.css" type="text/css" />
+	
+	<!-- JS ON ALL PAGES -->
+	<script src="js/cufon-yui.js" type="text/javascript"></script>
+	<script src="js/fonts/Geometric_Slabserif_500-Geometric_Slabserif_700.font.js" type="text/ecmascript"></script>
+	<script src="js/jquery-1.4.1.min.js" type="text/javascript"></script>
+	<script src="js/tcs.js" type="text/javascript" type="text/javascript"></script>
+	
+	<!-- BIO PAGE CSS -->
+	<link rel="stylesheet" href="css/scroll.css" type="text/css" />
+	<!-- BIO PAGE JS -->
+	<script src="js/plugins/jScrollPane.js" type="text/javascript"></script>
+	<script type="text/javascript">
+	
+		$(function()
+		{	
+			function add_scroll() 
+			{
+				var scroll_height = $(window).height() - 
+					$('header').outerHeight(true) - 
+					$('footer').outerHeight(true) - 
+					($('section').outerHeight(true) - $('section').height());
+				
+				var container = $('#scroll').parents('.jScrollPaneContainer');
+				if(container.length>0)
+					container.css('height', scroll_height + 'px');
+				else
+					$('#scroll').css('height', scroll_height + 'px');
+					
+				$('#scroll').jScrollPane({
+					scrollbarWidth: '7',
+					dragMaxHeight: '60'
+				});
+			}
+				
+			add_scroll();	
+			$(window).bind("resize", add_scroll);
+		});
+	</script>
+
+</head>
+
+<body>
+
+	<!-- header -->
+	<header>
+    
+		<nav> 
+		
+	  		<ul>
+	  			<li>
+	  				<a href='./homepage.html' title="theCollectiveShift&reg;">theCollectiveShift&reg;</a>
+	  			</li>
+	  			<li>
+	  				<h2>Clang</h2>
+	  			</li>
+	  			<li>
+	  				<span>Portfolios:</span>
+	  				<span>[</span> 
+	  				<a href="./portfolios.html" title="Advertising">Advertising</a>
+	  				&nbsp;
+	  				<a href="./portfolios.html" title="Personal">Personal</a>  
+	  				&nbsp;
+	  				<a href="./video.html" title="Video">Video</a> 	
+	  				<span>]</span>
+	  			</li>
+	  			<li>
+	  				<h1>Biography</h1>
+	  			</li>
+	  		</ul>
+	  	
+	  	</nav>
+	  		
+	</header>
+	<!-- / header -->
+	
+	<section id="biography">
+		
+		<div id="scroll">
+	    
+		    <p>
+		    	A technical virtuoso with a seemingly limitless capacity for innovating ideas, John Clang is a Singaporean photographer, based in New York. Whether perfecting characterful still life compositions for luxury goods clients, capturing monumental landscape vistas for streetwear brands, coaxing high-spirited performances out of youthful studio groups for sportswear labels or constructing playful street compositions for denimwear ranges, Clang is noted for the wit and exceptional range of his work.
+			</p>
+			<p>
+				Born 'Ang Choon Leng', Clang earned his distinctive moniker whilst completing national service, during which time his name badge read 'C L Ang'. Initially studying fine art and photography at LASALLE College of the Arts in Singapore, the driven student switched to instead assisting the fine art photographer Chua Soo Bin and then working as a photographer and commercials director with the island's most famous practitioner, Willie Tang. Clang's first significant commission was for Singapore Airlines, which quickly brought further opportunities from IBM and Levis, prompting him to relocate to New York in 1999.
+			<p>
+				Setting up his studio, 'Clang Photography' there, Clang proceeded to become one of the city's most industrious commercial photographers, shooting arresting advertising campaigns for clients as wide-ranging as Hermès, Nike, Godiva, Timberland, Reebok, Evian, Motorola and IBM and making memorable portraits of celebrity beauties such as Beyoncé Knowles, Sophie Dahl and Frankie Rayder. He remains as committed as ever to his personal artwork while still creating inventive editorial for cutting edge style magazines Interview, Nylon, Surface, 032c and The New York Times. His photographic interests have also extended to supporting new talent, which he did as Photographic Director of the experimental design and image title 'Werk' run by longstanding Comme des Garcons collaborator Theseus Chan. Clang's personal work features a recurrent strategy whereby figures are depicted from behind and his first solo exhibition in New York, 'Backs by Clang', was shown at the Diane Von Furstenberg Foundation in 2001, featuring Clang's stand-out prints as well as one of his striking video installations.
+		    </p>
+		    
+		    <cite>Biography by Penny Martin</cite>
+		    
+		    <details>Penny Martin is Professor of Fashion Imagery at London College of Fashion, University of the Arts, London and Editor and Chief of The Gentlewoman.</details>
+    	
+    	</div> 
+	      
+	</section>
+
+	
+	<!-- footer -->
+	<footer>
+		
+		<ul>
+			<li>
+				<h1>theCollectiveShift&reg;</h1>
+			</li>
+			<li>
+				<address>466 Broome Street, 4th Floor, New York, NY 10013</address>
+			</li>
+			<li>
+				<span>tel +1 212 226 1544</span>
+			</li>
+			<li>
+				<span>fax +1 646 619 4349</span>
+			</li>
+			<li>
+				<a href="mailto:contact@thecollectiveshift.com" title="email thecollectiveshift&reg;">contact@thecollectiveshift.com</a>
+			</li>
+		</ul>
+   	 	
+  	</footer>
+  	<!-- / footer -->
+	
+</body>
+
+</html>

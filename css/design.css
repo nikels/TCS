@@ -1,0 +1,46 @@
+body { background-color: #000; -webkit-animation-name: fadeIn; -webkit-animation-duration: 2s;	-webkit-animation-timing-function: ease-in-out; }
+/* WEBKIT ONLY FADE IN */
+@-webkit-keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* headers */
+h1 { color: #fffefe; font-size: inherit; display: inline; }
+h2 { font-size: 19px; color: #fefefe; }
+
+header { border-bottom: 1px solid #333333; width:100%; } 
+
+/* NAV and FOOTER */
+header nav ul { padding: 60px 0 6px 0; width: 1004px; margin: 0 auto; }
+header nav h1, header nav li { line-height: 13px; padding: 0 5px; }
+header nav li > h1 { padding: 0; }
+header nav li, footer li { font-size: 13px; font-weight: bold; color:#7e7e7e; display: inline-block; }
+a { color: inherit; text-decoration: none; }
+a:hover { color:#fffefe; }
+
+/* FOOTER */
+footer { border-top: 1px solid #333333; position: fixed; bottom: 0; width: 100%; margin: 0 auto; }
+footer ul { width: 1004px; margin: 0 auto; padding: 10px 0; }
+footer li { padding: 0 0 0 1px; font-size: 12px; }
+footer li:first-child { padding-left: 5px; }
+
+/* SECTIONAL CONTENT */
+
+section { width: 1004px; margin: 10px auto; }
+
+/* BIOGRAPHY */
+#biography div { width: 864px; }
+.jScrollPaneContainer { margin-left: 140px; }
+/* BIOGRAPHY TEXT */
+#biography cite, 
+	#biography description, 
+		#biography p { font-size: 18px; color: #fff; line-height: 25px; text-align: justify; word-spacing: .05em; padding-bottom: 20px; }
+#biography p:last-child { padding-bottom: 0; }
+
+#biography cite, #biography details { color: #656565; }
+#biography cite { display: block; }
+
+/* VIDEO PAGES */
+#video { margin-top: 50px; }
+#video cite { width: 852px; }
+
+/* VIDEO AND PORTFOLIO CITATION */
+.media cite { display:block; font-style: italic; text-align: center; font-size: 12px; color: #c6c6c6; }
