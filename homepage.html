@@ -32,6 +32,7 @@
 	
 	<!-- HOMEPAGE PAGE JS -->
 	<script src="js/jquery-ui.min.js"></script>
+	<script src="js/plugins/jquery.multiswipe.js"></script>
 	<script src="js/plugins/jquery.easing.1.3.js"></script>
 	<script type="text/javascript">
 	
@@ -66,10 +67,18 @@
 		$('#homepage ol').css("margin-left", h1.width() + 10);
 
 		var elm = document.getElementById('artists');
+		
+		$('#artists a').multiswipe({
+			threshold: 2,
+			swipeLeft: movement,
+     		swipeRight: movement,
+     		swipeUp: movement,
+     		swipeDown: movement,
+		})
 			
-		elm.addEventListener("touchstart", movement, false);
-		elm.addEventListener("touchmove", movement, false);
-		elm.addEventListener("touchend", movement, false);
+/* 		elm.addEventListener("touchstart", movement, false); */
+/* 		elm.addEventListener("touchmove", movement, false); */
+/* 		elm.addEventListener("touchend", movement, false); */
 		
 		
 		function movement(event)
@@ -82,31 +91,7 @@
 			    easing: 'easeInOutQuad'
 			});
 			
-
-		}
-		
-		links.each(function(i, item){
-			var item = $(item);
-			
-			
-/*
-			item.mouseover(function(){
-				motion.stop().animate({ 
-					top: $(this).position().top
-				}, {
-				    duration: 'slow', 
-				    easing: 'easeInOutQuad'
-				});
-			});
-*/
-			
-/*
-			item.click(function(evt){
-				evt.preventDefaults();
-			});
-*/
-			
-		});
+		};
 		
 		setInterval(animation, 5000);
 		
