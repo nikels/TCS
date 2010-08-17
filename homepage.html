@@ -73,9 +73,7 @@
 		
 		
 		function movement(event)
-		{
-		    event.preventDefault();
-			
+		{	
 			var newY= $(event.target).parents('a').position().top;
 			motion.stop().animate({ 
 				top: newY
