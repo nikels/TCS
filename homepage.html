@@ -63,14 +63,9 @@
 			top: h1_top
 		});
 		
-		$(document).mousemove(function(){
-			animate();
-		});
-		
 		$('#homepage ol').css("margin-left", h1.width() + 10);
-		
-		
-		var elm = document.getElementById('homepage');
+
+		var elm = document.getElementById('artists');
 			
 		elm.addEventListener("touchstart", movement, false);
 		elm.addEventListener("touchmove", movement, false);
@@ -81,7 +76,6 @@
 		{
 		    event.preventDefault();
 			
-
 			var newY= $(event.target).parents('a').position().top;
 			motion.stop().animate({ 
 				top: newY
@@ -116,9 +110,9 @@
 			
 		});
 		
-		setInterval(animate, 5000);
+		setInterval(animation, 5000);
 		
-		function animate()
+		function animation()
 		{
 			current = (current == color_len) ? 0 : current;
 			var font_color = font_colors[current];
@@ -175,7 +169,7 @@
 	
 	<section id="homepage">
 		
-		<ol>
+		<ol id="artists">
 			<!-- http://www.thecollectiveshift.com/xml/artists -->
 			<li>
 				<a>Clang</a>

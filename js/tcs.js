@@ -14,17 +14,4 @@ $(function()
 		.set('hover', 'true')
 		.replace('#biography cite')('a')('span')('h1')('h2')('address');
 	
-	function resize()
-	{		
-		var added = $('header').height() + $('section').height() + $('footer').height();
-		
-		if(added > $(window).height())
-			$('footer').css('position', 'relative');
-		else
-			$('footer').css('position', 'fixed');
-	};
-	
-	$(window).resize(resize);
-	resize();
-	
 });
