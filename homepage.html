@@ -32,7 +32,7 @@
 	
 	<!-- HOMEPAGE PAGE JS -->
 	<script src="js/jquery-ui.min.js"></script>
-	<script src="js/plugins/jquery.multiswipe.js"></script>
+	<script src="js/plugins/jquery.jswipe.js"></script>
 	<script src="js/plugins/jquery.easing.1.3.js"></script>
 	<script type="text/javascript">
 	
@@ -68,12 +68,9 @@
 
 		var elm = document.getElementById('artists');
 		
-		$('#artists a').multiswipe({
-			threshold: 2,
+		$('.swipe').swipe({
 			swipeLeft: movement,
-     		swipeRight: movement,
-     		swipeUp: movement,
-     		swipeDown: movement,
+			swipeRight: movement
 		})
 			
 /* 		elm.addEventListener("touchstart", movement, false); */
@@ -83,6 +80,7 @@
 		
 		function movement(event)
 		{	
+			
 			var newY= $(event.target).parents('a').position().top;
 			motion.stop().animate({ 
 				top: newY
@@ -154,38 +152,38 @@
 		
 		<ol id="artists">
 			<!-- http://www.thecollectiveshift.com/xml/artists -->
-			<li>
+			<li class="swipe">
 				<a>Clang</a>
 			</li>
-			<li>
+			<li class="swipe">
 				<a>St&#233;phanie Cohen Chaptal</a>
 			</li>
-			<li>
+			<li class="swipe">
 				<a>Philip-Lorca diCorcia</a>
 			</li>
-			<li>
+			<li class="swipe">
 				<a>Peter Gray</a>
 			</li>
-			<li>
+			<li class="swipe">
 				<a>Brigitte Lacombe</a>
 			</li>
-			<li>
+			<li class="swipe">
 				<a>Fran&#231;ois Nars</a>
 			</li>
-			<li>
+			<li class="swipe">
 				<a>Tom Pecheux</a>
 			</li>
-			<li>
+			<li class="swipe">
 				<a>Tommy Ton</a>
 				<span>portfolio coming soon</span>
 			</li>
-			<li>
+			<li class="swipe">
 				<a>Inez van Lamsweerde &amp; Vinoodh Matadin</a>
 			</li>
-			<li>
+			<li class="swipe">
 				<a>Melanie Ward</a>
 			</li>
-			<li>
+			<li class="swipe">
 				<a>Patti Wilson</a>
 			</li>
 		</ol>
