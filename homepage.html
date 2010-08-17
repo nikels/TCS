@@ -78,6 +78,7 @@
 			
 			elm.addEventListener("touchstart", function (event)
 			{
+			    event.preventDefault();
 			    switch(event.type)
 			    {
 			        case "touchstart" :
@@ -90,11 +91,11 @@
 			          break;
 			          
 			        case "touchmove" :
-			          	alert('this.onTouchMove(event)');
+			          	motion.stop();
 			          	break;
 			          	
 			        case "touchend" :
-			          	alert('this.onTouchEnd(event)');
+			          	motion.stop()
 			          	break;
 			    }
 			}, false);
