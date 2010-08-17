@@ -63,10 +63,37 @@
 			top: h1_top
 		});
 		
+		$(document).mousemove(function(){
+			animate();
+		});
+		
 		$('#homepage ol').css("margin-left", h1.width() + 10);
 		
 		links.each(function(i, item){
 			var item = $(item);
+			
+/*
+			item.attr('id', 'item-'+i);
+			var elm = document.getElementById('item-'+i)
+			
+			elm.addEventListener("touchstart", function (event)
+			{
+			    switch(event.type)
+			    {
+			        case "touchstart" :
+			          alert('this.onTouchStart(event)');
+			          break;
+			        case "touchmove" :
+			          alert('this.onTouchMove(event)');
+			          break;
+			        case "touchend" :
+			          alert('this.onTouchEnd(event)');
+			          break;
+			    }
+			}, false);
+*/
+			
+			
 			item.mouseover(function(){
 				motion.stop().animate({ 
 					top: $(this).position().top
@@ -75,9 +102,16 @@
 				    easing: 'easeInOutQuad'
 				});
 			});
+			
+			item.click(function(evt){
+				evt.preventDefaults();
+			});
+			
 		});
 		
-		setInterval(function()
+		setInterval(animate, 5000);
+		
+		function animate()
 		{
 			current = (current == color_len) ? 0 : current;
 			var font_color = font_colors[current];
@@ -106,7 +140,7 @@
 			
 			current++;
 			
-		}, 5000);
+		};
 		
 	});	
 	
@@ -137,38 +171,38 @@
 		<ol>
 			<!-- http://www.thecollectiveshift.com/xml/artists -->
 			<li>
-				<a href="portfolios.html">Clang</a>
+				<a>Clang</a>
 			</li>
 			<li>
-				<a href="Cohen">St&#233;phanie Cohen Chaptal</a>
+				<a>St&#233;phanie Cohen Chaptal</a>
 			</li>
 			<li>
-				<a href="diCorcia">Philip-Lorca diCorcia</a>
+				<a>Philip-Lorca diCorcia</a>
 			</li>
 			<li>
-				<a href="Gray">Peter Gray</a>
+				<a>Peter Gray</a>
 			</li>
 			<li>
-				<a href="Lacombe">Brigitte Lacombe</a>
+				<a>Brigitte Lacombe</a>
 			</li>
 			<li>
-				<a href="Nars">Fran&#231;ois Nars</a>
+				<a>Fran&#231;ois Nars</a>
 			</li>
 			<li>
-				<a href="Pecheux">Tom Pecheux</a>
+				<a>Tom Pecheux</a>
 			</li>
 			<li>
 				<a>Tommy Ton</a>
 				<span>portfolio coming soon</span>
 			</li>
 			<li>
-				<a href="van_Lamsweerde_Matadin">Inez van Lamsweerde &amp; Vinoodh Matadin</a>
+				<a>Inez van Lamsweerde &amp; Vinoodh Matadin</a>
 			</li>
 			<li>
-				<a href="Ward">Melanie Ward</a>
+				<a>Melanie Ward</a>
 			</li>
 			<li>
-				<a href="Wilson">Patti Wilson</a>
+				<a>Patti Wilson</a>
 			</li>
 		</ol>
 		
