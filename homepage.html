@@ -91,11 +91,21 @@
 			          break;
 			          
 			        case "touchmove" :
-			          	motion.stop();
+			          	motion.stop().animate({ 
+							top: $(this).position().top
+						},{
+						    duration: 'slow', 
+						    easing: 'easeInOutQuad'
+						});
 			          	break;
 			          	
 			        case "touchend" :
-			          	motion.stop()
+			          	motion.stop().animate({ 
+							top: $(this).position().top
+						},{
+						    duration: 'slow', 
+						    easing: 'easeInOutQuad'
+						});
 			          	break;
 			    }
 			}, false);
