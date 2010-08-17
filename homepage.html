@@ -81,14 +81,21 @@
 			    switch(event.type)
 			    {
 			        case "touchstart" :
-			          alert('this.onTouchStart(event)');
+						motion.stop().animate({ 
+							top: $(this).position().top
+						},{
+						    duration: 'slow', 
+						    easing: 'easeInOutQuad'
+						});
 			          break;
+			          
 			        case "touchmove" :
-			          alert('this.onTouchMove(event)');
-			          break;
+			          	alert('this.onTouchMove(event)');
+			          	break;
+			          	
 			        case "touchend" :
-			          alert('this.onTouchEnd(event)');
-			          break;
+			          	alert('this.onTouchEnd(event)');
+			          	break;
 			    }
 			}, false);
 			
