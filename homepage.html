@@ -69,46 +69,32 @@
 		
 		$('#homepage ol').css("margin-left", h1.width() + 10);
 		
+		
+		var elm = document.getElementById('homepage');
+			
+		elm.addEventListener("touchstart", movement, false);
+		elm.addEventListener("touchmove", movement, false);
+		elm.addEventListener("touchend", movement, false);
+		
+		
+		function movement(event)
+		{
+		    event.preventDefault();
+			
+
+			var newY= $(event.target).parents('a').position().top;
+			motion.stop().animate({ 
+				top: newY
+			},{
+			    duration: 'slow', 
+			    easing: 'easeInOutQuad'
+			});
+			
+
+		}
+		
 		links.each(function(i, item){
 			var item = $(item);
-			
-			
-			item.attr('id', 'item-'+i);
-			var elm = document.getElementById('item-'+i)
-			
-			elm.addEventListener("touchstart", function (event)
-			{
-			    event.preventDefault();
-			    switch(event.type)
-			    {
-			        case "touchstart" :
-						motion.stop().animate({ 
-							top: $(this).position().top
-						},{
-						    duration: 'slow', 
-						    easing: 'easeInOutQuad'
-						});
-			          break;
-			          
-			        case "touchmove" :
-			          	motion.stop().animate({ 
-							top: $(this).position().top
-						},{
-						    duration: 'slow', 
-						    easing: 'easeInOutQuad'
-						});
-			          	break;
-			          	
-			        case "touchend" :
-			          	motion.stop().animate({ 
-							top: $(this).position().top
-						},{
-						    duration: 'slow', 
-						    easing: 'easeInOutQuad'
-						});
-			          	break;
-			    }
-			}, false);
 			
 			
 /*
