@@ -32,35 +32,35 @@
 		
 		return this.each(function() {
 			
-			var me = $(this)
-			
 			// Private variables for each element
-			var originalCoord = { x: 0, y: 0 }
-			var finalCoord = { x: 0, y: 0 }
+			var originalCoord = { x: 0, y: 0 };
+			var finalCoord = { x: 0, y: 0 };
 			
 			// Screen touched, store the original coordinate
 			function touchStart(event) {
-				originalCoord.x = event.targetTouches[0].pageX
-				originalCoord.y = event.targetTouches[0].pageY
+				originalCoord.x = event.targetTouches[0].pageX;
+				originalCoord.y = event.targetTouches[0].pageY;
 			}
 			
 			// Store coordinates as finger is swiping
 			function touchMove(event) {
 			    event.preventDefault();
-				finalCoord.x = event.targetTouches[event.targetTouches.length-1].pageX // Updated X,Y coordinates
-				finalCoord.y = event.targetTouches[event.targetTouches.length-1].pageY
+
+			    // Updated X,Y coordinates
+			    finalCoord.x = event.targetTouches[0].pageX;
+				finalCoord.y = event.targetTouches[0].pageY;
 				
 				var changeY = originalCoord.y - finalCoord.y;
 				var changeX = originalCoord.x - finalCoord.x;
 				
 				if(changeY > defaults.threshold) {
-					defaults.swipeUp(event);
+					defaults.swipeUp(event.targetTouches[0]);
 				}else if(changeY < (defaults.threshold*-1)) {
-					defaults.swipeDown(event);
+					defaults.swipeDown(event.targetTouches[0]);
 				}else if(changeX > defaults.threshold) {
-					defaults.swipeLeft(event);
+					defaults.swipeLeft(event.targetTouches[0]);
 				}else if(changeX < (defaults.threshold*-1)) {
-					defaults.swipeRight(event);
+					defaults.swipeRight(event.targetTouches[0]);
 				}
 			}
 			
@@ -68,7 +68,6 @@
 			// Swipe should only be on X axis, ignore if swipe on Y axis
 			// Calculate if the swipe was left or right
 			function touchEnd(event) {
-				
 			}
 			
 			// Swipe was canceled

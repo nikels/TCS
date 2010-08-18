@@ -69,9 +69,7 @@
 		$('.swipe').swipe({
 			threshold: 1,
 			swipeUp: movement,
-			swipeDown: movement,
-			swipeLeft: movement,
-			swipeRight: movement
+			swipeDown: movement
 		})
 
 /* 		var elm = document.getElementById('artists'); */			
@@ -82,14 +80,13 @@
 		
 		function movement(event)
 		{	
-			
 			// change the color
 			$('.swipe').removeClass('active');
 			$(event.currentTarget).addClass('active');
 			Cufon.refresh();
 			
 			var scrollTop = $(window).scrollTop();
-			var newY = $(event.currentTarget).position().top - scrollTop;
+			var newY = $(event.target).parents('a').position().top - scrollTop;
 			motion.stop().animate({ 
 				top: newY
 			},{
