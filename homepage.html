@@ -69,6 +69,9 @@
 		var elm = document.getElementById('artists');
 		
 		$('.swipe').swipe({
+			threshold: 1,
+			swipeUp: movement,
+			swipeDown: movement,
 			swipeLeft: movement,
 			swipeRight: movement
 		})

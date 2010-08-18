@@ -40,14 +40,13 @@
 			
 			// Screen touched, store the original coordinate
 			function touchStart(event) {
-				console.log('Starting swipe gesture...')
 				originalCoord.x = event.targetTouches[0].pageX
 				originalCoord.y = event.targetTouches[0].pageY
 			}
 			
 			// Store coordinates as finger is swiping
 			function touchMove(event) {
-			    event.preventDefault();
+/* 			    event.preventDefault(); */
 				finalCoord.x = event.targetTouches[0].pageX // Updated X,Y coordinates
 				finalCoord.y = event.targetTouches[0].pageY
 			}
@@ -56,23 +55,22 @@
 			// Swipe should only be on X axis, ignore if swipe on Y axis
 			// Calculate if the swipe was left or right
 			function touchEnd(event) {
-				var changeY = originalCoord.y - finalCoord.y
-				if(changeY < defaults.threshold.y && changeY > (defaults.threshold.y*-1)) {
-					changeX = originalCoord.x - finalCoord.x
-					
-					if(changeX > defaults.threshold.x) {
-						defaults.swipeLeft(event)
-					}
-					if(changeX < (defaults.threshold.x*-1)) {
-						defaults.swipeRight(event)
-					}
+				var changeY = originalCoord.y - finalCoord.y;
+				var changeX = originalCoord.x - finalCoord.x;
+				
+				if(changeY > defaults.threshold) {
+					defaults.swipeUp(event);
+				}else if(changeY < (defaults.threshold*-1)) {
+					defaults.swipeDown(event);
+				}else if(changeX > defaults.threshold) {
+					defaults.swipeLeft(event);
+				}else if(changeX < (defaults.threshold*-1)) {
+					defaults.swipeRight(event);
 				}
 			}
 			
 			// Swipe was canceled
-			function touchCancel(event) { 
-				console.log('Canceling swipe gesture...')
-			}
+			function touchCancel(event) {}
 			
 			// Add gestures to all swipable areas
 			this.addEventListener("touchstart", touchStart, false);
