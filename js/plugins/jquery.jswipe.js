@@ -46,7 +46,7 @@
 			
 			// Store coordinates as finger is swiping
 			function touchMove(event) {
-/* 			    event.preventDefault(); */
+			    event.preventDefault();
 				finalCoord.x = event.targetTouches[0].pageX // Updated X,Y coordinates
 				finalCoord.y = event.targetTouches[0].pageY
 			}
