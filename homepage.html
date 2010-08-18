@@ -65,8 +65,6 @@
 		});
 		
 		$('#homepage ol').css("margin-left", h1.width() + 10);
-
-		var elm = document.getElementById('artists');
 		
 		$('.swipe').swipe({
 			threshold: 1,
@@ -75,7 +73,8 @@
 			swipeLeft: movement,
 			swipeRight: movement
 		})
-			
+
+/* 		var elm = document.getElementById('artists'); */			
 /* 		elm.addEventListener("touchstart", movement, false); */
 /* 		elm.addEventListener("touchmove", movement, false); */
 /* 		elm.addEventListener("touchend", movement, false); */
@@ -84,7 +83,13 @@
 		function movement(event)
 		{	
 			
-			var newY= $(event.target).parents('a').position().top;
+			// change the color
+			$('.swipe').removeClass('active');
+			$(event.currentTarget).addClass('active');
+			Cufon.refresh();
+			
+			var scrollTop = $(window).scrollTop();
+			var newY = $(event.currentTarget).position().top - scrollTop;
 			motion.stop().animate({ 
 				top: newY
 			},{
@@ -155,39 +160,39 @@
 		
 		<ol id="artists">
 			<!-- http://www.thecollectiveshift.com/xml/artists -->
-			<li class="swipe">
-				<a>Clang</a>
+			<li>
+				<a class="swipe">Clang</a>
 			</li>
-			<li class="swipe">
-				<a>St&#233;phanie Cohen Chaptal</a>
+			<li>
+				<a class="swipe">St&#233;phanie Cohen Chaptal</a>
 			</li>
-			<li class="swipe">
-				<a>Philip-Lorca diCorcia</a>
+			<li>
+				<a class="swipe">Philip-Lorca diCorcia</a>
 			</li>
-			<li class="swipe">
-				<a>Peter Gray</a>
+			<li>
+				<a class="swipe">Peter Gray</a>
 			</li>
-			<li class="swipe">
-				<a>Brigitte Lacombe</a>
+			<li>
+				<a class="swipe">Brigitte Lacombe</a>
 			</li>
-			<li class="swipe">
-				<a>Fran&#231;ois Nars</a>
+			<li>
+				<a class="swipe">Fran&#231;ois Nars</a>
 			</li>
-			<li class="swipe">
-				<a>Tom Pecheux</a>
+			<li>
+				<a class="swipe">Tom Pecheux</a>
 			</li>
-			<li class="swipe">
-				<a>Tommy Ton</a>
+			<li>
+				<a class="swipe">Tommy Ton</a>
 				<span>portfolio coming soon</span>
 			</li>
-			<li class="swipe">
-				<a>Inez van Lamsweerde &amp; Vinoodh Matadin</a>
+			<li>
+				<a class="swipe">Inez van Lamsweerde &amp; Vinoodh Matadin</a>
 			</li>
-			<li class="swipe">
-				<a>Melanie Ward</a>
+			<li>
+				<a class="swipe">Melanie Ward</a>
 			</li>
-			<li class="swipe">
-				<a>Patti Wilson</a>
+			<li>
+				<a class="swipe">Patti Wilson</a>
 			</li>
 		</ol>
 		
