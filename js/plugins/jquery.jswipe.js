@@ -47,14 +47,9 @@
 			// Store coordinates as finger is swiping
 			function touchMove(event) {
 			    event.preventDefault();
-				finalCoord.x = event.targetTouches[0].pageX // Updated X,Y coordinates
-				finalCoord.y = event.targetTouches[0].pageY
-			}
-			
-			// Done Swiping
-			// Swipe should only be on X axis, ignore if swipe on Y axis
-			// Calculate if the swipe was left or right
-			function touchEnd(event) {
+				finalCoord.x = event.targetTouches[event.targetTouches.length-1].pageX // Updated X,Y coordinates
+				finalCoord.y = event.targetTouches[event.targetTouches.length-1].pageY
+				
 				var changeY = originalCoord.y - finalCoord.y;
 				var changeX = originalCoord.x - finalCoord.x;
 				
@@ -67,6 +62,13 @@
 				}else if(changeX < (defaults.threshold*-1)) {
 					defaults.swipeRight(event);
 				}
+			}
+			
+			// Done Swiping
+			// Swipe should only be on X axis, ignore if swipe on Y axis
+			// Calculate if the swipe was left or right
+			function touchEnd(event) {
+				
 			}
 			
 			// Swipe was canceled
