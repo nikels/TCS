@@ -84,10 +84,20 @@
 				var caption = $(this).attr('data-caption');
 				var src = $(this).attr('data-display');
 				
+				// 0 = portrait
+				// 90 = landscape
+				var max_width = (window.orientation == 90) ? 500 : 250;
+				
 				$('<img />')
 					.prependTo($('.item'))
 					.css('display', 'none')
 					.bind('load', function(){
+						
+/*
+						var width = $(this).width();
+						if(width > max_width)
+							$(this).attr("width", max_width);
+*/
 						
 						$(this).siblings('img').remove();
 						$(this).siblings('cite').html(caption);

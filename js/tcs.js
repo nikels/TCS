@@ -14,19 +14,27 @@ $(function()
 		.set('hover', 'true')
 		.replace('#biography cite')('a')('span')('h1')('h2')('address');
 	
-/*
-	function resize()
-	{		
-		var added = $('header').height() + $('section').height() + $('footer').height();
+
+	function updateOrientation()
+	{
 		
-		if(added > $(window).height())
-			$('footer').css('position', 'relative');
+		var window_h = $(window).height();
+		var content_h = $('header').outerHeight(true) + 
+						$('section').outerHeight(true) + 
+						$('footer').outerHeight(true);
+		
+		if(window_h > content_h)		
+			$('footer').css({
+				'bottom': 0,
+				'position': 'absolute'
+			});
 		else
-			$('footer').css('position', 'fixed');
+			$('footer').css({
+				'position': 'relative'
+			});
 	};
 	
-	$(window).resize(resize);
-	resize();
-*/
-	
+	updateOrientation();
+	window.addEventListener('orientationchange', updateOrientation, false);
+
 });

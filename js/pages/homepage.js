@@ -1,20 +1,23 @@
 $(function()
 {
-	var h1 			= $('h1').eq(0);
-	var header 		= $('header').eq(0);
-	var footer 		= $('footer').eq(0);
-	var body 		= $('body').eq(0);
-	var links 		= $('#homepage').find('a');
-	var list_items	= $('li');
+	var h1	= $('h1').eq(0);
+	var header = $('header').eq(0);
+	var footer = $('footer').eq(0);
+	var body = $('body').eq(0);
+	var links = $('#homepage').find('a');
+	var list_items = $('li');
 	
-	var font_colors = ['#81b481', '#7e98b2','#b2b27e','#b298b2','#b2b298','#b39ab3','#989898','#91adad'];
-	var bg_colors 	= ['#006600', '#003366','#666600','#663366','#666633','#663366','#333333','#336666'];
-	var color_len 	= font_colors.length;
-	var current 	= 0;
+	var font_colors = 	['#81b481','#7e98b2','#b2b27e','#b298b2','#b2b298','#b39ab3','#989898','#91adad'];
+	var bg_colors = 	['#006600','#003366','#666600','#663366','#666633','#663366','#333333','#336666'];
+	var border_colors = ['#257c25','#25507c','#7c7c25','#7c507c','#7c7c50','#7c507c','#505050','#507c7c'];
+	var color_len = font_colors.length;
+	var current = 0;
 	
-	var pos 		= h1.position();
-	var h1_top 		= pos.top;
-	var h1_left 	= pos.left;
+	var pos = h1.position();
+	var h1_top = pos.top;
+	var h1_left = pos.left;
+	
+	var timeout;
 	
 	header.height(header.height());
 			
@@ -26,14 +29,13 @@ $(function()
 		top: h1_top
 	});
 	
-	$('#homepage ol').css("margin-left", h1.width() + 10);
-	
-	var to;
 	links.each(function(i, item){
 		var item = $(item);
-		item.click(function(event){
+		item.data('href', $(item).attr('href'));
 		
-			if(to)
+		item.click(function(event){
+			// Handle multiple clicks.
+			if(timeout)
 				clearTimeout(to);
 			
 			// Update the link.
@@ -49,10 +51,9 @@ $(function()
 			    duration: 'slow', 
 			    easing: 'easeInOutQuad',
 			    complete: function(){
-			    
-					to = setTimeout(function(){
+			    	
+			    	if(item.data("href"))
 						document.location = item.attr("href");
-					}, 500);
 					
 				}
 			});
@@ -64,6 +65,7 @@ $(function()
 		current = (current == color_len) ? 0 : current;
 		var font_color = font_colors[current];
 		var bg_color = bg_colors[current];
+		var border_color = border_colors[current];
 		var time = 500;
 		
 		h1.animate({
@@ -75,12 +77,17 @@ $(function()
 				var color = $(this).css('color');
 					
 				list_items.css('color', color);
-				header.css('border-bottom-color', color);
-				footer.css('border-top-color', color);
-				
 				Cufon.refresh();
 			}
 		});
+		
+		header.animate({
+			borderBottomColor: border_color
+		}, time);
+		
+		footer.animate({
+			borderTopColor: border_color
+		}, time);
 		
 		body.animate({
 			backgroundColor: bg_color
@@ -88,6 +95,6 @@ $(function()
 		
 		current++;
 		
-	}, 5000);
+	}, 4000);
 	
 });

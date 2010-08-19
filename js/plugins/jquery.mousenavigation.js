@@ -34,13 +34,11 @@
 		
 		function adjust_size()
 		{							
+/* 			nav.hide(); */
 			nav.height($(window).height());
+/* 			nav.show(); */
 			
-			nav.css('left', 
-				$('section').width() + 
-				$('section').offset().left - 
-				(nav.width() / 2)
-			);
+			nav.css('right', 0);
 		};
 	};
 

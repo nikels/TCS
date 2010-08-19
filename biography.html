@@ -11,44 +11,14 @@
 	<!-- CSS ON ALL PAGES -->
 	<link rel="stylesheet" href="css/reset.css" type="text/css" />
 	<link rel="stylesheet" href="css/design.css" type="text/css" />
+	<link rel="stylesheet" media="all and (orientation:landscape)" href="css/landscape.css">
 	
 	<!-- JS ON ALL PAGES -->
 	<script src="js/cufon-yui.js" type="text/javascript"></script>
 	<script src="js/fonts/Geometric_Slabserif_500-Geometric_Slabserif_700.font.js" type="text/ecmascript"></script>
 	<script src="js/jquery-1.4.1.min.js" type="text/javascript"></script>
 	<script src="js/tcs.js" type="text/javascript"></script>
-	
-	<!-- BIO PAGE CSS -->
-	<link rel="stylesheet" href="css/scroll.css" type="text/css" />
-	<!-- BIO PAGE JS -->
-	<script src="js/plugins/jScrollPane.js" type="text/javascript"></script>
-	<script type="text/javascript">
-	
-		$(function()
-		{	
-			function add_scroll() 
-			{
-				var scroll_height = $(window).height() - 
-					$('header').outerHeight(true) - 
-					$('footer').outerHeight(true) - 
-					($('section').outerHeight(true) - $('section').height());
-				
-				var container = $('#scroll').parents('.jScrollPaneContainer');
-				if(container.length>0)
-					container.css('height', scroll_height + 'px');
-				else
-					$('#scroll').css('height', scroll_height + 'px');
-					
-				$('#scroll').jScrollPane({
-					scrollbarWidth: '7',
-					dragMaxHeight: '60'
-				});
-			}
-				
-			add_scroll();	
-			$(window).bind("resize", add_scroll);
-		});
-	</script>
+
 
 </head>
 
@@ -88,7 +58,7 @@
 	
 	<section id="biography">
 		
-		<div id="scroll">
+		<div>
 	    
 		    <p>
 		    	A technical virtuoso with a seemingly limitless capacity for innovating ideas, John Clang is a Singaporean photographer, based in New York. Whether perfecting characterful still life compositions for luxury goods clients, capturing monumental landscape vistas for streetwear brands, coaxing high-spirited performances out of youthful studio groups for sportswear labels or constructing playful street compositions for denimwear ranges, Clang is noted for the wit and exceptional range of his work.

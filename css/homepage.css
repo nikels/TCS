@@ -1,0 +1,6 @@
+header li { padding: 3px 0; }
+header nav h1 { font-size: 20px; line-height: 20px; color:#7e7e7e; padding: 0 5px 0 0; margin: 0; }
+#homepage li { margin-left: 290px; display: block; color: #7e7e7e; padding: 3px 0; font-size:20px; line-height: 20px; }
+#homepage ol { padding: 40px 0; }
+#homepage li > span { display: none; }
+#homepage li:hover > span { display: inline; }
