@@ -9,7 +9,7 @@
 		return this.each(function(){
 		
 			var parent = $(this).parent();
-			$(this).click(change_item);
+			$(this).bind('touchend', change_item);
 			
 			function select()
 			{
