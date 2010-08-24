@@ -35,8 +35,7 @@
 					select();
 							
 					$('.item').children('img').remove();
-					$(this).siblings('cite').html(caption);
-					Cufon.refresh('cite');
+					$('.item').children('cite').remove();
 						
 					$('<video/>')
 						.prependTo($('.item'))
@@ -45,6 +44,11 @@
 							'autoplay': true,
 							'src': src
 						});
+						
+					$('<cite/>')
+						.appendTo($('.item'))
+						.html(caption);
+					Cufon.refresh('cite');
 						
 					resize_video();
 					center();
@@ -64,8 +68,11 @@
 						.bind('load', function(){
 							
 							$(this).siblings('img').remove();
+							$(this).siblings('cite').remove();
 							
-							$(this).siblings('cite').html(caption);
+							$('<cite/>')
+								.appendTo($('.item'))
+								.html(caption);
 							Cufon.refresh('cite');
 							
 							select();
@@ -114,12 +121,19 @@
 			var item_height = img.height();
 			
 			if(item_width > max_width)
-				img.css('width', max_width);
+			{
+				item_height = max_width * item_height / item_width;
+				item_width = max_width;
+			}
 				
 			if (item_height > max_height)
-				$('footer').css('position', 'relative');
-			else
-				$('footer').css('position', 'absolute');
+			{
+				item_width = max_height * item_width / item_height;
+				item_height = max_height;
+			}
+			
+			img.css('width', item_width);
+			img.css('height', item_height);
 		}
 		
 		function center()
@@ -129,6 +143,9 @@
 			var max_height = $(window).height() - ($('cite').outerHeight(true) + $('header').outerHeight(true) + $('footer').outerHeight(true));
 				
 			item.css('padding-top', (max_height > item_height) ? (max_height - item_height) / 2 : 0);
+			
+			if (item_height > max_height)
+				$('footer').css('position', 'relative');
 		};
 	};
 
