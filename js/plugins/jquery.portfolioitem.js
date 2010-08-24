@@ -9,7 +9,7 @@
 		return this.each(function(){
 		
 			var parent = $(this).parent();
-			$(this).bind('touchend', change_item);
+			$(this).click(change_item);
 			
 			function select()
 			{
@@ -115,8 +115,11 @@
 			
 			if(item_width > max_width)
 				img.css('width', max_width);
-			else if (item_height > max_height)
-				img.css('height', item_height);
+				
+			if (item_height > max_height)
+				$('footer').css('position', 'relative');
+			else
+				$('footer').css('position', 'absolute');
 		}
 		
 		function center()

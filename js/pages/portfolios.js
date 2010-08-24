@@ -4,6 +4,7 @@ $(function(){
 	var section = $('section');
 	var nav = $('#portfolio nav');	
 	var list = nav.find('ul');
+	var loaded = 0;
 	
 	var len = imgs.length;
 	for(var i = 0, len; i < len; i++)
@@ -26,6 +27,10 @@ $(function(){
 		
 		$(this).attr('width', _w);
 		$(this).attr('height', _h);
+
+		loaded++;
+		if(loaded==len)
+			nav.animate({opacity: 1});
 	});
 	
 	// Scroll setup
