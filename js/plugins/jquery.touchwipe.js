@@ -11,8 +11,8 @@
     		min_move: 100,
  			wipeLeft: function() { alert("left"); },
  			wipeRight: function() { alert("right"); },
- 			wipeUp: function() { alert("up"); },
- 			wipeDown: function() { alert("down"); },
+ 			wipeUp: function() {},
+ 			wipeDown: function() {},
 			preventDefaultEvents: true
 	 };
      

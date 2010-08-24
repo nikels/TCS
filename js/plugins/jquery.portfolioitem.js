@@ -16,14 +16,18 @@
 		$(".items").touchwipe({
 			wipeLeft: move_left,
 			wipeRight: move_right,
+/*
 			wipeUp: move_up,
 			wipeDown: move_down,
+*/
 			min_move: 100,
 			preventDefaultEvents: true
 		});	
 	
 		return this.each(function()
 		{	
+			$(this).click()
+			
 			if($(this).parent().hasClass(selected))
 				init($(this));			
 		});
@@ -34,10 +38,10 @@
 			if(parent.hasClass(selected) && $('.item').children(':not(cite)') > 0)
 				return;
 */			
-			var _prev = build_previous(previous());
-			var _curr = build_current(current);
-			var _next = build_next(next());			
-/*			$(".items").click(move_left); */
+			build_previous(previous());
+			build_current(current);
+			build_next(next());			
+/* 			$(".items").click(move_left); */
 
 		};
 		
@@ -110,34 +114,27 @@
 			$('<img />')
 				.prependTo(item)
 				.bind('load', function(){
+				
 					center(item);
 					add_citation(item, caption);
-					preload_complete = true
+					
+					// handle playback 
+					if(asset_type == "video")
+					{
+						var play_button = draw_play(item);
+						play_button.click(function(){
+							add_video(item, asset);				
+						})
+					}
+					preload_complete = true;
 				})
 				.attr('src', (asset_type == "video" ) ? poster : src);
-			
-
-/*
-				$('<video/>')
-					.prependTo(item)
-					.css('display', 'none')
-					.attr({
-						'controls': true,
-						'preload': true,
-						'src': src
-					});
-					
-				center(item);
-				
-				$('video')[0].setAttribute('poster', poster);
-				$('video')[0].load();
-				$('video')[0].play();
-*/
 			
 			return item;
 			
 		}
 		
+/*
 		function move_up()
 		{
 			alert('up');
@@ -147,13 +144,14 @@
 		{
 			alert('down');
 		};
+*/
 		
 		function select(item)
 		{
 			item.parent().siblings().removeClass(selected);
 			item.parent().addClass(selected);
 			
-			//scroll.scrollTo(scrollToElement("#elementID", '400ms'));
+			//scroll.scrollTo(scrollToElement("CSS3 selector", '400ms'));
 			scroll.scrollToElement(".selected", '400ms')
 		};
 		
@@ -178,10 +176,9 @@
 				left: '-='+ww
 			},'slow', function(){
 				$(this).attr('class', 'item current');
-				select(next());
+				select(next());				
 				build_next(next());
 			});
-			
 			
 		};
 		
@@ -209,6 +206,71 @@
 				select(previous());
 				build_previous(previous());
 			});
+		};
+		
+		function draw_play(item) {  			
+			var h_wide = (item.width() / 2) - 25;
+			var h_high = item.find('img').offset().top + (item.height() / 2) - 50;
+			
+			var canvas = $('<canvas/>')
+				.css({
+					position: 'absolute',
+					top: h_high,
+					left: h_wide
+				})
+				.attr('width',75)
+				.attr('height',100)
+				.appendTo(item);
+			
+			var context = canvas[0].getContext("2d");
+			
+			context.fillStyle   = 'rgba(255, 255, 255, .7)';
+			context.strokeStyle = 'rgba(33, 33, 33, .5)';
+			context.lineWidth   = 1;
+			
+			// Draw a right triangle.
+			context.beginPath();
+			context.moveTo(0, 0);
+			context.lineTo(75, 50);
+			context.lineTo(0, 100);
+			context.lineTo(0, 0);
+			context.closePath();
+			context.fill();
+			context.stroke();
+			
+			return canvas;
+		}
+		
+		function add_video(item, asset)
+		{
+			
+			var src = asset.attr('data-display');
+			var poster = asset.attr('data-poster');
+			
+			item.find('img').hide();
+			
+			var video = $('<video/>')
+				.prependTo(item)
+				.attr({
+					'controls': true,
+					'preload': true,
+					'src': src
+				});
+			
+			center(item);
+			
+			video[0].setAttribute('poster', poster);
+			video[0].load();
+			video[0].play();
+			video[0].addEventListener(
+				'pause',
+				function(){
+					item.find('img').show();
+					$("video").hide();		
+				},
+				false
+			);
+			
 		};
 		
 		function next()
@@ -242,15 +304,16 @@
 			
 			var media = item.children().eq(0);
 			
-			if(media[0].nodeName == "VIDEO")
+			switch(media[0].nodeName)
 			{
+			case "VIDEO":
 				media.attr({
 					width: max_width,
 					height: max_width * 9 / 16
 				});
-			}
-			else if(media[0].nodeName == "IMG")
-			{
+				break;
+				
+			case "IMG":
 				var img = media;
 				var item_width = img.width();
 				var item_height = img.height();
@@ -269,9 +332,11 @@
 				
 				img.css('width', item_width);
 				img.css('height', item_height);
+				break;
+				
 			}
 			
-			return item;
+			return media;
 		}
 		
 		function center(item)
