@@ -16,17 +16,34 @@
 		$(".items").touchwipe({
 			wipeLeft: move_left,
 			wipeRight: move_right,
-/*
-			wipeUp: move_up,
-			wipeDown: move_down,
-*/
+/*			wipeUp: move_up,
+			wipeDown: move_down, */
 			min_move: 100,
 			preventDefaultEvents: true
 		});	
 	
 		return this.each(function()
 		{	
-			$(this).click()
+			$(this).click(function(){
+				
+				var li = build_current($(this));
+				var img = li.find('img');
+				var that = $(this);
+				
+				img
+					.css('display', 'none')
+					.bind('load', function(){
+				
+						select(that);
+				
+						li.siblings().remove();
+						build_previous(previous());
+						build_next(next());	
+					
+						img.fadeIn('fast');	
+				});
+				
+			});
 			
 			if($(this).parent().hasClass(selected))
 				init($(this));			
@@ -84,6 +101,8 @@
 				left: 0,
 				top: 0
 			});
+			
+			return item;
 		};
 		
 		function build_previous(asset)
