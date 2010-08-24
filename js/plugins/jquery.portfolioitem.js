@@ -159,7 +159,10 @@
 		{
 			if(!preload_complete)
 				return; 
-				
+			
+			// only one video at a time
+			$('video').remove();
+			
 			$(".previous").animate({
 				left: '-='+ww
 			},'slow', function(){
@@ -186,6 +189,9 @@
 		{
 			if(!preload_complete)
 				return;
+				
+			// only one video at a time
+			$('video').remove();
 			
 			$(".next").animate({
 				left: '+='+ww
