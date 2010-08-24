@@ -143,9 +143,6 @@
 			var max_height = $(window).height() - ($('cite').outerHeight(true) + $('header').outerHeight(true) + $('footer').outerHeight(true));
 				
 			item.css('padding-top', (max_height > item_height) ? (max_height - item_height) / 2 : 0);
-			
-			if (item_height > max_height)
-				$('footer').css('position', 'relative');
 		};
 	};
 
