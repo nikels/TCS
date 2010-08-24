@@ -50,6 +50,6 @@ $(function(){
 	setHeight();
 	
 	// expanding and contracting
-	$(imgs).portfolioitem();
+	$(imgs).portfolioitem({scroll: myScroll});
 
 });
