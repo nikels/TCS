@@ -51,8 +51,5 @@ $(function(){
 	
 	// expanding and contracting
 	$(imgs).portfolioitem();
-	
-	// previous and next arrows
-	$.fn.portfolioviewer(imgs);
 
 });

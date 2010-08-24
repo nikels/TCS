@@ -8,21 +8,23 @@
 (function($) { 
    $.fn.touchwipe = function(settings) {
      var config = {
-    		min_move_x: 20,
+    		min_move: 100,
  			wipeLeft: function() { alert("left"); },
  			wipeRight: function() { alert("right"); },
+ 			wipeUp: function() { alert("up"); },
+ 			wipeDown: function() { alert("down"); },
 			preventDefaultEvents: true
 	 };
      
      if (settings) $.extend(config, settings);
  
      this.each(function() {
-    	 var startX;
+    	 var startX, startY;
 		 var isMoving = false;
 
     	 function cancelTouch() {
     		 this.removeEventListener('touchmove', onTouchMove);
-    		 startX = null;
+    		 startY = startX = null;
     		 isMoving = false;
     	 }	
     	 
@@ -32,14 +34,25 @@
     		 }
     		 if(isMoving) {
 	    		 var x = e.touches[0].pageX;
+	    		 var y = e.touches[0].pageY;
 	    		 var dx = startX - x;
-	    		 if(Math.abs(dx) >= config.min_move_x) {
+	    		 var dy = startY - y;
+	    		 
+	    		 if(Math.abs(dx) >= config.min_move) {
 	    			cancelTouch();
 	    			if(dx > 0) {
 	    				config.wipeLeft();
 	    			}
 	    			else {
 	    				config.wipeRight();
+	    			}
+	    		 }else if(Math.abs(dy) >= config.min_move) {
+	    			cancelTouch();
+	    			if(dy > 0) {
+	    				config.wipeUp();
+	    			}
+	    			else {
+	    				config.wipeDown();
 	    			}
 	    		 }
     		 }
@@ -49,6 +62,7 @@
     	 {
     		 if (e.touches.length == 1) {
     			 startX = e.touches[0].pageX;
+    			 startY = e.touches[0].pageY;
     			 isMoving = true;
     			 this.addEventListener('touchmove', onTouchMove, false);
     		 }

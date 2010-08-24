@@ -46,13 +46,6 @@ section { margin-bottom: 40px; }
 #portfolio li { display: block; height:60px; line-height:60px; overflow: hidden; }
 #portfolio nav { opacity: 0; }
 li.selected { background: url(../img/caret.png) no-repeat left center; }
-.arrows { position: absolute; right: 120px; top: 50%; padding-left: 5px; }
-.arrows a { width: 12px; height: 12px; display: inline-block; }
-
-#right_arrow { background:url(../img/arrow_right.png) no-repeat; }
-/* #right_arrow:hover { background-image:url(../img/arrow_right_on.png); } */
-#left_arrow { background:url(../img/arrow_left.png) no-repeat; }
-/* #left_arrow:hover { background-image:url(../img/arrow_left_on.png); } */
 
 #wrapper { height:200px; position:absolute; z-index:1; right:0; width:115px; overflow:hidden; text-align:center; }
 #scroller { float:right; width:100%; padding:0; }
