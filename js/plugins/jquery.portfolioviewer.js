@@ -1,67 +1,34 @@
 (function($) {
 
 	$.fn.portfolioviewer = function(imgs)
-	{			
-		
-		var len = imgs.length;
-					
-		// FORWARD AND NEXT BUTTONS
-		$('.arrows a').hover(
-			function(){
-				
-				$(this).css('cursor', 'pointer');
-				
-				// preload
-				preload(next());
-				
-			},
-			function(){
-				$(this).css('cursor', '');
-				
-				// preload
-				preload(previous());
-			}
-		);
-		
+	{						
+			
 		$('#left_arrow').click(function()
 		{
-			var n = next();
-			$(imgs.eq(n)).trigger('click');
-			
-			preload(previous());
+			$(previous()).trigger('click');
 		});
 		
 		$('#right_arrow').click(function()
 		{
-			var p = previous();
-			$(imgs.eq(p)).trigger('click');
-			
-			preload(next());
+			$(next()).trigger('click');
 		});
-		
+
 		function next()
 		{
-			var dci = $('.selected').find('img').attr('data-collection-index');
-			var r = dci - 2;
-			if(r<0)
-				r = len-1;
-			return r;
+			var next = $('.selected').next().find('img');
+			if(next.length==0)
+				next = $(imgs.eq(0));
+				
+			return next;
 		};
 		
 		function previous()
 		{
-			var dci = $('.selected').find('img').attr('data-collection-index');
-			var r = dci;
-			if(r>=len)
-				r = 0;
-				
-			return r;
-		};
-		
-		function preload(index)
-		{
-			var preload = new Image();
-			preload.src = imgs.eq(index).attr('data-display');
+			var prev = $('.selected').prev().find('img');
+			if(prev.length==0)
+				prev = $(imgs.eq(imgs.length-1));
+					
+			return prev;
 		};
 	};
 

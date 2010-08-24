@@ -2,73 +2,14 @@
 
 	$.fn.portfolioitem = function()
 	{
-
-		var len = $(this).length;		
-		var zIndex = 99999;
 		var selected = "selected";
-		var show_count = true;		
-		var count = $('<i />')
-			.css({
-				'position': 'absolute',
-				'color': '#fff', 
-				'font-size': '11px',
-				'word-wrap': 'normal',
-				'opacity': 0.8,
-				'margin-left': '10px'
-			})
-			.appendTo($('body'));
-			
-		update_count(len);
 		
-		$(window).resize(size_check);
-		size_check();
-		
-		count.hide();
-		
-		function size_check()
-		{
-			// Don't show count, if it causes a scroll.
-			var left_pos = count.outerWidth(true) + $('#portfolio nav').offset().left + $('#portfolio nav').width();
-			
-			show_count = (left_pos > $(window).width()) ? false : true;
-		};
-		
-		function update_count(no)
-		{	
-			if(show_count)
-			{	
-				count.html('<pre>' + no + '/' + len + '</pre>');
-				count.show();
-			}
-		};
-		
+		window.addEventListener('onorientationchange' in window ? 'orientationchange' : 'resize', center, false);
+	
 		return this.each(function(){
 		
 			var parent = $(this).parent();
-				
-			
-			$(this).hover(expand, collapse);
-			$(this).click(collapse);
-			$(this).click(change_image);
-		
-			$(this).mouseover(function(event){
-				var preload = new Image();
-				preload.src = $(this).attr('data-display');
-				
-				update_count($(this).attr('data-collection-index'));
-			});
-			
-			$(this).mousemove(function(event){
-				if(show_count)
-					count.css({
-						'top': event.pageY - count.height(),
-						'left': parent.parents('nav').offset().left + parent.parents('nav').width()
-					});
-			});
-			
-			$(this).mouseout(function(event){
-				count.hide();
-			});
+			$(this).click(change_item);
 			
 			function select()
 			{
@@ -76,77 +17,116 @@
 				parent.addClass(selected);
 			};
 
-			function change_image()
+			function change_item()
 			{	
-				if(parent.hasClass(selected))
+
+				if(parent.hasClass(selected) && $('.item').children(':not(cite)') > 0)
 					return;
 				
 				var caption = $(this).attr('data-caption');
 				var src = $(this).attr('data-display');
-				
-				// 0 = portrait
-				// 90 = landscape
-				var max_width = (window.orientation == 90) ? 500 : 250;
-				
-				$('<img />')
-					.prependTo($('.item'))
-					.css('display', 'none')
-					.bind('load', function(){
-						
-/*
-						var width = $(this).width();
-						if(width > max_width)
-							$(this).attr("width", max_width);
-*/
-						
-						$(this).siblings('img').remove();
-						$(this).siblings('cite').html(caption);
-						$(this).fadeIn('slow');
-						
-						select();
-						
-						Cufon.refresh('cite');
-					})
-					.attr('src', src);
-			};
-			
-			function expand()
-			{		
-				if(parent.hasClass(selected))
-					return;
+				var asset_type = $(this).attr('data-asset-type');
+				var poster = $(this).attr('data-poster');
+
+				switch(asset_type)
+				{
+				case "video":
 					
-				$(this).css('cursor', 'pointer');
-				
-				var w_diff = -1 * (($(this).attr('data-width') - $(this).attr('data-s-width')) / 2);
-				var h_diff = -1 * (($(this).attr('data-height') - $(this).attr('data-s-height')) / 2);
-				
-				parent.css('z-index',++zIndex);
-				
-				$(this).animate({							
-					width: $(this).attr('data-width'),
-					height: $(this).attr('data-height'),
-					marginTop: h_diff,
-					marginLeft: w_diff
-				}, {
-					duration: 'fast',
-					easing: 'easeOutQuad'	
-				});
+					select();
+							
+					$('.item').children('img').remove();
+					$(this).siblings('cite').html(caption);
+					Cufon.refresh('cite');
+						
+					$('<video/>')
+						.prependTo($('.item'))
+						.attr({
+							'controls': true,
+							'autoplay': true,
+							'src': src
+						});
+						
+					resize_video();
+					center();
+					
+					$('video')[0].setAttribute('poster', poster);
+					$('video')[0].load();
+					$('video')[0].play();
+					
+					$('video').fadeIn('slow');
+						
+					break;
+					
+				default:
+					$('<img />')
+						.prependTo($('.item'))
+						.css('display', 'none')
+						.bind('load', function(){
+							
+							$(this).siblings('img').remove();
+							
+							$(this).siblings('cite').html(caption);
+							Cufon.refresh('cite');
+							
+							select();
+							resize_img();
+							center();
+							
+							if($('video').length > 0)							
+								$('video')[0].pause();
+								
+							$('video').remove();
+							
+							$(this).fadeIn('slow');						
+						})
+						.attr('src', src);
+				}
 			};
 			
-			function collapse()
-			{
-				$(this).animate({
-					width: $(this).attr('data-s-width'),
-					height: $(this).attr('data-s-height'),
-					marginTop: 0,
-					marginLeft: 0
-				}, {
-					duration: 'fast',
-					easing: 'easeOutQuad'	
-				});
-			};
+			if(parent.hasClass(selected))
+				$(this).trigger('click');
 			
 		});
+		
+		function resize_video()
+		{
+			var max_width = $('.arrows').offset().left;
+			var video = $('.item').find('video');
+			video.attr({
+				width: max_width,
+				height: max_width * 9 / 16
+			});
+		}
+		
+		function resize_img()
+		{
+			var max_width = $('.arrows').offset().left;
+			var max_height = $(window).height() - ($('cite').outerHeight(true) + $('header').outerHeight(true) + $('footer').outerHeight(true));
+			
+			// Set w/ of container for text-align: center.
+			$('.item').css({
+				'width': max_width,
+				'text-align': 'center'
+			});
+			
+			var img = $('.item').find('img');
+			var item_width = img.width();
+			var item_height = img.height();
+			
+			if(item_width > max_width)
+				img.css('width', max_width);
+			else if (item_height > max_height)
+				img.css('height', item_height);
+		}
+		
+		function center()
+		{			
+			var item = $('.item').children().eq(0);
+			var item_height = item.height();
+			var max_height = $(window).height() - ($('cite').outerHeight(true) + $('header').outerHeight(true) + $('footer').outerHeight(true));
+				
+			item.css('padding-top', (max_height > item_height) ? (max_height - item_height) / 2 : 0);
+		};
 	};
 
 })(jQuery);

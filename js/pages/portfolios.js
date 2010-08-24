@@ -1,38 +1,20 @@
 $(function(){
 	
-	var imgs = $('#portfolio img');
-	var t = 0;
-	var len = imgs.length;
-	var item_height = 50;
-	var item_padding = 10;  
-	var item_plus_padding = item_height + item_padding;
-	
+	var imgs = $('#wrapper img');
 	var section = $('section');
 	var nav = $('#portfolio nav');	
 	var list = nav.find('ul');
-	var footer_h = $('footer').height();
-	var header_h = $('header').height();
-	var section_h = section.height()
-	var listheight = (list.find('li').length * item_plus_padding) + footer_h + header_h;
 	
-/*
+	var len = imgs.length;
 	for(var i = 0, len; i < len; i++)
-	{
-		imgs.eq(i).attr('data-collection-index', (i+1))
-		imgs.eq(i).parent().css({
-			position: 'absolute',
-			top: t
-		});
-		t += item_plus_padding;
-	}
-*/
+		imgs.eq(i).attr('data-collection-index', (i+1));
 	
 	// Populate data fields based on the actual size
 	imgs.bind('load', function(){
 		$(this).attr('data-width', this.width);
 		$(this).attr('data-height', this.height);
 		
-		var _h = item_height;
+		var _h = 50;
 		var _r = _h/this.height;
 		var _w = Math.round(this.width * _r);
 		
@@ -44,13 +26,9 @@ $(function(){
 		
 		$(this).attr('width', _w);
 		$(this).attr('height', _h);
-		
-		$(this).parent().css('paddingLeft', ((nav.width() - _w) / 2) + 'px');
-		
 	});
 	
-	var myScroll;
-	
+	// Scroll setup
 	function setHeight()
 	{
 		var headerH = document.getElementsByTagName('header')[0].offsetHeight;
@@ -59,11 +37,11 @@ $(function(){
 		document.getElementById('wrapper').style.height = wrapperH + 'px';
 	}
 	
-	myScroll = new iScroll('scroller');
+	var myScroll = new iScroll('scroller');
 	/* myScroll = myScroll.destroy();	// Destroy the iScroll */
 	
 	window.addEventListener('onorientationchange' in window ? 'orientationchange' : 'resize', setHeight, false);
-	document.addEventListener('touchmove', function(e){ e.preventDefault(); }, false);
+/* 	document.addEventListener('touchmove', function(e){ e.preventDefault(); }, false); */
 	setHeight();
 	
 	// expanding and contracting
@@ -71,10 +49,5 @@ $(function(){
 	
 	// previous and next arrows
 	$.fn.portfolioviewer(imgs);
-	
-	
-	// NAVIGATION
-/* 	$.fn.mousenavigation(nav, list, listheight); */
 
-	
 });

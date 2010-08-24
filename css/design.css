@@ -1,6 +1,8 @@
 body { background-color: #000; -webkit-animation-name: fadeIn; -webkit-animation-duration: 2s;	-webkit-animation-timing-function: ease-in-out; }
+body.fadeOut { background-color: #000; -webkit-animation-name: fadeOut; -webkit-animation-duration: 2s;	-webkit-animation-timing-function: ease-in-out; }
 /* WEBKIT ONLY FADE IN */
 @-webkit-keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@-webkit-keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
 
 /* headers */
 h1 { color: #fffefe; font-size: inherit; display: inline; }
@@ -18,7 +20,7 @@ a { color: inherit; text-decoration: none; }
 .active, a:hover { color:#fffefe; }
 
 /* FOOTER */
-footer { border-top: 1px solid #333333; width: 100%; }
+footer { border-top: 1px solid #333333; width: 100%; position: absolute; bottom: 0; }
 footer ul { padding: 0 5px 20px; }
 footer li { padding: 0 0 0 1px; font-size: 12px; }
 footer li:first-child { padding-left: 5px; }
@@ -27,6 +29,7 @@ footer li:first-child { padding-left: 5px; }
 section { margin-bottom: 40px; }
 
 /* BIOGRAPHY */
+#biography + footer { position: relative; }
 #biography div { margin-left: 145px; margin-right: 80px; margin-top: 10px; margin-bottom: 150px; }
 /* BIOGRAPHY TEXT */
 #biography cite, 
@@ -37,46 +40,18 @@ section { margin-bottom: 40px; }
 #biography cite, #biography details { color: #656565; display:block; }
 #biography details { line-height: 24px; }
 
-/* VIDEO PAGES */
-#video { margin-top: 45px; }
-#video cite { width: 852px; margin-bottom: 20px; }
-
 /* VIDEO AND PORTFOLIO CITATION */
 .media cite { display:block; font-style: italic; text-align: center; font-size: 12px; color: #c6c6c6; }
 
-#portfolio .item { width: 880px; min-height: 545px; }
-#portfolio .item img { max-width: 620px; }
 #portfolio li { display: block; height:60px; line-height:60px; overflow: hidden; }
-li.selected { background: url(../img/caret.png) no-repeat 20px center; }
-#portfolio div { text-align: center; }
-
-.arrows { position: absolute; right: 154px; top: 255px; }
+li.selected { background: url(../img/caret.png) no-repeat left center; }
+.arrows { position: absolute; right: 120px; top: 50%; padding-left: 5px; }
 .arrows a { width: 12px; height: 12px; display: inline-block; }
 
 #right_arrow { background:url(../img/arrow_right.png) no-repeat; }
-#right_arrow:hover { background-image:url(../img/arrow_right_on.png); }
+/* #right_arrow:hover { background-image:url(../img/arrow_right_on.png); } */
 #left_arrow { background:url(../img/arrow_left.png) no-repeat; }
-#left_arrow:hover { background-image:url(../img/arrow_left_on.png); }
+/* #left_arrow:hover { background-image:url(../img/arrow_left_on.png); } */
 
-#wrapper {
-	height:200px;		/* Of course you need to specify the object height */
-
-	position:absolute;	/* On older OS versions "position" and "z-index" must be defined, */
-	z-index:1;			/* it seems that recent webkit is less picky and works anyway. */
-	right:0;
-	
-	width:154px;
-	overflow:hidden;
-/*	background:#aaa url(wrapper-bg.png);*/
-}
-
-#scroller {
-/*	-webkit-touch-callout:none;*/
-/*	-webkit-tap-highlight-color:rgba(0,0,0,0);*/
-
-	float:right;
-	width:100%;
-	padding:0;
-	
-/*	-webkit-box-shadow:0 0 8px #555;	/* Don't use box shadows, they slow down drastically CSS animations */
-}
+#wrapper { height:200px; position:absolute; z-index:1; right:0; width:115px; overflow:hidden; text-align:center; }
+#scroller { float:right; width:100%; padding:0; }

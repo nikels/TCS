@@ -10,6 +10,7 @@ $(function()
 	var font_colors = 	['#81b481','#7e98b2','#b2b27e','#b298b2','#b2b298','#b39ab3','#989898','#91adad'];
 	var bg_colors = 	['#006600','#003366','#666600','#663366','#666633','#663366','#333333','#336666'];
 	var border_colors = ['#257c25','#25507c','#7c7c25','#7c507c','#7c7c50','#7c507c','#505050','#507c7c'];
+
 	var color_len = font_colors.length;
 	var current = 0;
 	
@@ -51,10 +52,21 @@ $(function()
 			    duration: 'slow', 
 			    easing: 'easeInOutQuad',
 			    complete: function(){
-			    	
+
 			    	if(item.data("href"))
-						document.location = item.attr("href");
-					
+			    	{
+			    		header.stop();
+						footer.stop();
+						h1.stop();
+						
+						body.attr('class', 'fadeOut');
+						
+						setTimeout(function(){
+							body.css('opacity', 0);
+							document.location = item.attr("href");
+				    	}, 1500);
+			    	}
+				    	
 				}
 			});
 		});
@@ -66,7 +78,7 @@ $(function()
 		var font_color = font_colors[current];
 		var bg_color = bg_colors[current];
 		var border_color = border_colors[current];
-		var time = 500;
+		var time = 600;
 		
 		h1.animate({
 			color: font_color
