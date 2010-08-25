@@ -20,6 +20,54 @@ $(function()
 	
 	var timeout;
 	
+	/*
+	var body = document.getElementsByTagName('body')[0];
+	
+	var lastSheet = document.styleSheets[document.styleSheets.length - 1];
+	lastSheet.insertRule("@-webkit-keyframes starting_keyframes { from { background-color: #000; } to { background-color: " + bg_colors[0] + "; } }", lastSheet.cssRules.length);
+	body.style.webkitAnimationName = 'starting_keyframes';
+	body.style.backgroundColor = bg_colors[0];
+	body.style.webkitAnimationDuration = '4s';
+	body.style.webkitAnimationIterationCount = 'infinite';
+	var _i = 0;
+	var found = false;
+
+	body.addEventListener('webkitAnimationIteration', 
+		function(){
+		
+			if(_i == bg_colors.length)
+				_i = 0;
+			
+			var from = bg_colors[_i];
+			var to   = bg_colors[_i+1] || bg_colors[0];
+			var rule_name = 'animation'+_i;
+			var regexp = new RegExp(rule_name);
+			
+			if(!found)
+			{
+				for(var i = lastSheet.cssRules.length-1; i >= 0; i--)
+				{
+					var css_text = lastSheet.cssRules[i].cssText;
+					if(regexp.test(css_text))
+					{
+						found = true;
+						break;
+					}
+				}
+
+				var newRule = "@-webkit-keyframes " + rule_name + " { from { background-color: " + from + "; } to { background-color: " + to + "; } }";		
+				lastSheet.insertRule(newRule, lastSheet.cssRules.length);
+			}
+			
+			body.style.backgroundColor = to;
+			body.style.webkitAnimationName = rule_name;
+			
+			_i++;
+			
+		} , false);
+	*/
+	
+	
 	header.height(header.height());
 			
 	h1.wrap("<div/>");
@@ -72,13 +120,14 @@ $(function()
 		});
 	});
 	
+
 	setInterval(function()
 	{
 		current = (current == color_len) ? 0 : current;
 		var font_color = font_colors[current];
 		var bg_color = bg_colors[current];
 		var border_color = border_colors[current];
-		var time = 600;
+		var time = 4000;
 		
 		h1.animate({
 			color: font_color
@@ -107,6 +156,6 @@ $(function()
 		
 		current++;
 		
-	}, 4000);
+	}, 6000);
 	
 });
