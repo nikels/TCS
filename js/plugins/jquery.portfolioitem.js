@@ -1,18 +1,52 @@
 (function($) {
 
-	$.fn.portfolioitem = function(config)
+	$.fn.portfolioitem = function()
 	{
+		var preload_complete = false;
+		
+		var imgs = this;
+		var section = $('section');
 		var selected = "selected";
 		var nav = $('#portfolio nav');	
-		var imgs = this;
+		var list = nav.find('ul');
+		var loaded = 0;
+		var scroll;
 		var ww = $(window).width();
-		var preload_complete = false;
-		var scroll = config.scroll;
+		var len = imgs.length;
+				
+		for(var i = 0, len; i < len; i++)
+			imgs.eq(i).attr('data-collection-index', (i+1));
 		
-		$('section').height($(window).height() - $('header').outerHeight(true) - $('footer').outerHeight(true));
+		// Populate data fields based on the actual size
+		imgs.bind('load', function(){
+			$(this).attr('data-width', this.width);
+			$(this).attr('data-height', this.height);
+			
+			var _h = 50;
+			var _r = _h/this.height;
+			var _w = Math.round(this.width * _r);
+			
+			$(this).attr('data-width', this.width);
+			$(this).attr('data-height', this.height);
+			
+			$(this).attr('data-s-width', _w);
+			$(this).attr('data-s-height', _h);
+			
+			$(this).attr('width', _w);
+			$(this).attr('height', _h);
+	
+			loaded++;
+			if(loaded==len)
+				nav.animate({opacity: 1});
+		});
 		
-		window.addEventListener('onorientationchange' in window ? 'orientationchange' : 'resize', center, false);
+		window.addEventListener('onorientationchange' in window ? 'orientationchange' : 'resize', setHeight, false);
+		/* 	document.addEventListener('touchmove', function(e){ e.preventDefault(); }, false); */
 		
+		// Set the height before initializing the scroll.
+		setHeight();
+		scroll = new iScroll('scroller');
+
 		$(".items").touchwipe({
 			wipeLeft: move_left,
 			wipeRight: move_right,
@@ -33,14 +67,13 @@
 				img
 					.css('display', 'none')
 					.bind('load', function(){
-				
+						img.fadeIn('fast');	
+						
 						select(that);
 				
 						li.siblings().remove();
 						build_previous(previous());
 						build_next(next());	
-					
-						img.fadeIn('fast');	
 				});
 				
 			});
@@ -61,6 +94,21 @@
 /* 			$(".items").click(move_left); */
 
 		};
+		
+		// Scroll setup
+		function setHeight()
+		{
+			var headerH = document.getElementsByTagName('header')[0].offsetHeight;
+			var footerH = document.getElementsByTagName('footer')[0].offsetHeight;
+			var wrapperH = window.innerHeight - headerH - footerH;
+			document.getElementById('wrapper').style.height = wrapperH + 'px';
+			
+			$('section').height($(window).height() - $('header').outerHeight(true) - $('footer').outerHeight(true));
+			
+			$('.item').each(function(i,item){
+				center($(item));
+			});
+		}
 		
 		function remove_video()
 		{				
@@ -233,15 +281,13 @@
 			});
 		};
 		
-		function draw_play(item) {  			
-			var h_wide = (item.width() / 2) - 25;
-			var h_high = item.find('img').offset().top + (item.height() / 2) - 50;
+		function draw_play(item) { 
+			var h_high = item.find('img').height() - 50;
 			
 			var canvas = $('<canvas/>')
 				.css({
-					position: 'absolute',
-					top: h_high,
-					left: h_wide
+					position: 'relative',
+					top: -1 * h_high
 				})
 				.attr('width',75)
 				.attr('height',100)
