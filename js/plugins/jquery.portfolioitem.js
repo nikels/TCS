@@ -318,7 +318,7 @@
 			var src = asset.attr('data-display');
 			var poster = asset.attr('data-poster');
 			
-			item.find('img').hide();
+			item.find('img, canvas').hide();
 			
 			var video = $('<video/>')
 				.prependTo(item)
@@ -330,17 +330,18 @@
 			
 			center(item);
 			
+			function pause_video()
+			{
+				removeEventListener("pause", pause_video, false);
+				
+				item.find('img, canvas').show();
+				$("video").remove();		
+			};
+			
 			video[0].setAttribute('poster', poster);
 			video[0].load();
 			video[0].play();
-			video[0].addEventListener(
-				'pause',
-				function(){
-					item.find('img').show();
-					$("video").hide();		
-				},
-				false
-			);
+			video[0].addEventListener('pause', pause_video, false);
 			
 		};
 		
