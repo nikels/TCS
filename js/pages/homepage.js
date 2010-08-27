@@ -127,7 +127,7 @@ $(function()
 		var font_color = font_colors[current];
 		var bg_color = bg_colors[current];
 		var border_color = border_colors[current];
-		var time = 4000;
+		var time = 3000;
 		
 		h1.animate({
 			color: font_color
@@ -156,6 +156,6 @@ $(function()
 		
 		current++;
 		
-	}, 6000);
+	}, 3100);
 	
 });
