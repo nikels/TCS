@@ -122,15 +122,27 @@
 				var asset = item.children().eq(0);
 				var max_width = nav.offset().left;
 				
+				// Set w/ of container for text-align: center.
+				item.parent().css({
+					'width': max_width,
+					'text-align': 'center'
+				});
+				
 				// Set the dimensions of the video
 				if(asset[0].nodeName == "VIDEO")
-					asset.attr({
-						width: max_width,
-						height: max_width * 9 / 16
-					});
+					size_video(asset);
 				
 				adjust_padding(asset);
 				
+			});
+		};
+		
+		function size_video(asset)
+		{
+			var max_width = nav.offset().left;
+			asset.attr({
+				width: max_width,
+				height: max_width * 9 / 16
 			});
 		};
 		
@@ -365,6 +377,7 @@
 					'src': src
 				});
 			
+			size_video(video);
 			adjust_padding(video);
 			
 			function pause_video()
