@@ -40,7 +40,7 @@
 				
 		});
 		
-		// Set the height before initializing the scroll.
+		// Listen for adjusts in orientation and size.
 		window.addEventListener('onorientationchange' in window ? 'orientationchange' : 'resize', resize, false);
 		/* 	document.addEventListener('touchmove', function(e){ e.preventDefault(); }, false); */
 
@@ -102,6 +102,8 @@
 			nav.css({opacity:0});
 			
 			resize();
+			
+			scroll.scrollToElement(".selected", '400ms');
 		};
 		
 		// Scroll setup
@@ -227,7 +229,7 @@
 						height: 32,
 						position: 'absolute',
 						top: ($(window).height() / 2) - 16,
-						left: ($(window).width() / 2) - 16
+						left: (nav.offset().left / 2) - 16
 					})
 					.addClass('loading')
 					.prependTo($('body'));
@@ -254,7 +256,7 @@
 			item.parent().addClass(selected);
 			
 			//scroll.scrollTo(scrollToElement("CSS3 selector", '400ms'));
-			scroll.scrollToElement(".selected", '400ms')
+			scroll.scrollToElement(".selected", '400ms');
 		};
 		
 		function move_left()
