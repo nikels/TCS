@@ -114,22 +114,13 @@
 			var wrapperH = window.innerHeight - headerH - footerH;
 			document.getElementById('wrapper').style.height = wrapperH + 'px';
 			
-			var max_width = nav.offset().left;
-			var max_height = $(window).height() - ($('cite').outerHeight(true) + $('header').outerHeight(true) + $('footer').outerHeight(true));
-			
 			$('section').height($(window).height() - $('header').outerHeight(true) - $('footer').outerHeight(true));
 			
 			$('.item').each(function(i,item){
 				
 				var item = $(item);
-				
-				// Set w/ of container for text-align: center.
-				item.css({
-					'width': max_width,
-					'text-align': 'center'
-				});
-				
 				var asset = item.children().eq(0);
+				var max_width = nav.offset().left;
 				
 				// Set the dimensions of the video
 				if(asset[0].nodeName == "VIDEO")
@@ -138,9 +129,22 @@
 						height: max_width * 9 / 16
 					});
 				
-				var item_height = asset.height();
-				asset.css('padding-top', (max_height > item_height) ? (max_height - item_height) / 2 : 0);
+				adjust_padding(asset);
 				
+			});
+		};
+		
+		function adjust_padding(asset)
+		{
+			var item_height = asset.height();
+			var max_height = $(window).height() - ($('cite').outerHeight(true) + $('header').outerHeight(true) + $('footer').outerHeight(true));
+			var max_width = nav.offset().left;
+			asset.css('padding-top', (max_height > item_height) ? (max_height - item_height) / 2 : 0);
+			
+			// Set w/ of container for text-align: center.
+			asset.parent().css({
+				'width': max_width,
+				'text-align': 'center'
 			});
 		};
 		
@@ -207,7 +211,7 @@
 				.prependTo(item)
 				.bind('load', function(){
 				
-					resize();
+					adjust_padding($(this));
 					add_citation(item, caption);
 					
 					// handle playback 
@@ -361,7 +365,7 @@
 					'src': src
 				});
 			
-			resize();
+			adjust_padding(video);
 			
 			function pause_video()
 			{
@@ -370,7 +374,7 @@
 				item.find('img, canvas').show();
 				$("video").remove();		
 				
-				resize();
+				adjust_padding(item.find('img'));
 			};
 			
 			video[0].setAttribute('poster', poster);
