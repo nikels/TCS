@@ -2,7 +2,6 @@
 
 	$.fn.portfolioitem = function()
 	{
-		var preload_complete = false;
 		
 		var imgs = this;
 		var section = $('section');
@@ -10,14 +9,10 @@
 		var nav = $('#portfolio nav');	
 		var list = nav.find('ul');
 		var loaded = 0;
-		var scroll;
-		var ww = $(window).width();
+		var scroll = new iScroll('scroller');
 		var len = imgs.length;
-				
-		for(var i = 0, len; i < len; i++)
-			imgs.eq(i).attr('data-collection-index', (i+1));
 		
-		// Populate data fields based on the actual size
+		// Populate data fields based on the actual size after its been loaded.
 		imgs.bind('load', function(){
 			$(this).attr('data-width', this.width);
 			$(this).attr('data-height', this.height);
@@ -34,18 +29,20 @@
 			
 			$(this).attr('width', _w);
 			$(this).attr('height', _h);
-	
+			
+			// show things
 			loaded++;
 			if(loaded==len)
+			{
+				$('.item').animate({opacity: 1})
 				nav.animate({opacity: 1});
+			}
+				
 		});
 		
-		window.addEventListener('onorientationchange' in window ? 'orientationchange' : 'resize', setHeight, false);
-		/* 	document.addEventListener('touchmove', function(e){ e.preventDefault(); }, false); */
-		
 		// Set the height before initializing the scroll.
-		setHeight();
-		scroll = new iScroll('scroller');
+		window.addEventListener('onorientationchange' in window ? 'orientationchange' : 'resize', resize, false);
+		/* 	document.addEventListener('touchmove', function(e){ e.preventDefault(); }, false); */
 
 		$(".items").touchwipe({
 			wipeLeft: move_left,
@@ -61,6 +58,8 @@
 			$(this).click(function(){
 				
 				var li = build_current($(this));
+				li.siblings().remove();
+				
 				var img = li.find('img');
 				var that = $(this);
 				
@@ -70,52 +69,77 @@
 						img.fadeIn('fast');	
 						
 						select(that);
-				
-						li.siblings().remove();
+
 						build_previous(previous());
 						build_next(next());	
 				});
 				
 			});
 			
+			// A class in the HTML kicks things off.
 			if($(this).parent().hasClass(selected))
 				init($(this));			
 		});
 		
+/*
+		var cache = [];
+		function cache_image(src) {
+			
+			var cached = document.createElement('img');
+			cached.src = src;
+			cache.push(cached);
+		};
+*/
+		
 		function init(current)
 		{	
-/*
-			if(parent.hasClass(selected) && $('.item').children(':not(cite)') > 0)
-				return;
-*/			
 			build_previous(previous());
 			build_current(current);
-			build_next(next());			
-/* 			$(".items").click(move_left); */
-
+			build_next(next());
+			
+			// Don't show the items just yet.
+			$('.item').css({opacity:0});
+			nav.css({opacity:0});
+			
+			resize();
 		};
 		
 		// Scroll setup
-		function setHeight()
+		function resize()
 		{
 			var headerH = document.getElementsByTagName('header')[0].offsetHeight;
 			var footerH = document.getElementsByTagName('footer')[0].offsetHeight;
 			var wrapperH = window.innerHeight - headerH - footerH;
 			document.getElementById('wrapper').style.height = wrapperH + 'px';
 			
+			var max_width = nav.offset().left;
+			var max_height = $(window).height() - ($('cite').outerHeight(true) + $('header').outerHeight(true) + $('footer').outerHeight(true));
+			
 			$('section').height($(window).height() - $('header').outerHeight(true) - $('footer').outerHeight(true));
 			
 			$('.item').each(function(i,item){
-				center($(item));
-			});
-		}
-		
-		function remove_video()
-		{				
-			if($('video').length > 0)							
-				$('video')[0].pause();
 				
-			$('video').remove();
+				var item = $(item);
+				
+				// Set w/ of container for text-align: center.
+				item.css({
+					'width': max_width,
+					'text-align': 'center'
+				});
+				
+				var asset = item.children().eq(0);
+				
+				// Set the dimensions of the video
+				if(asset[0].nodeName == "VIDEO")
+					asset.attr({
+						width: max_width,
+						height: max_width * 9 / 16
+					});
+				
+				var item_height = asset.height();
+				asset.css('padding-top', (max_height > item_height) ? (max_height - item_height) / 2 : 0);
+				
+			});
 		};
 		
 		function add_citation(asset, caption)
@@ -134,7 +158,7 @@
 			item.addClass('next');
 			item.css({
 				position: 'absolute',
-				left: ww,
+				left: $(window).width(),
 				top: 0
 			});
 		};
@@ -160,7 +184,7 @@
 			item.addClass('previous');
 			item.css({
 				position: 'absolute',
-				left: -1 * ww,
+				left: -1 * $(window).width(),
 				top: 0
 			});
 		};
@@ -171,7 +195,6 @@
 			var src = asset.attr('data-display');
 			var asset_type = asset.attr('data-asset-type');
 			var poster = asset.attr('data-poster');
-			preload_complete = false;
 			
 			var item = $('<li/>')
 				.attr('class','item')
@@ -182,7 +205,7 @@
 				.prependTo(item)
 				.bind('load', function(){
 				
-					center(item);
+					resize();
 					add_citation(item, caption);
 					
 					// handle playback 
@@ -193,13 +216,25 @@
 							add_video(item, asset);				
 						})
 					}
-					preload_complete = true;
+
+					$('.loading').remove();
 				})
 				.attr('src', (asset_type == "video" ) ? poster : src);
+				
+				$('<div/>')
+					.css({
+						width: 32,
+						height: 32,
+						position: 'absolute',
+						top: ($(window).height() / 2) - 16,
+						left: ($(window).width() / 2) - 16
+					})
+					.addClass('loading')
+					.prependTo($('body'));
 			
 			return item;
 			
-		}
+		};
 		
 /*
 		function move_up()
@@ -224,26 +259,24 @@
 		
 		function move_left()
 		{
-			if(!preload_complete)
-				return; 
 			
 			// only one video at a time
 			$('video').remove();
 			
 			$(".previous").animate({
-				left: '-='+ww
+				left: '-='+$(window).width()
 			},'slow', function(){
 				$(this).remove();
 			});
 			
 			$(".current").animate({
-				left: '-='+ww
+				left: '-='+$(window).width()
 			},'slow', function(){
 				$(this).attr('class', 'item previous');
 			});
 			
 			$(".next").animate({
-				left: '-='+ww
+				left: '-='+$(window).width()
 			},'slow', function(){
 				$(this).attr('class', 'item current');
 				select(next());				
@@ -254,26 +287,24 @@
 		
 		function move_right()
 		{
-			if(!preload_complete)
-				return;
 				
 			// only one video at a time
 			$('video').remove();
 			
 			$(".next").animate({
-				left: '+='+ww
+				left: '+='+$(window).width()
 			},'slow', function(){
 				$(this).remove();
 			});
 			
 			$(".current").animate({
-				left: '+='+ww
+				left: '+='+$(window).width()
 			},'slow', function(){
 				$(this).attr('class', 'item next');
 			});
 			
 			$(".previous").animate({
-				left: '+='+ww
+				left: '+='+$(window).width()
 			},'slow', function(){
 				$(this).attr('class', 'item current');
 				select(previous());
@@ -295,8 +326,8 @@
 			
 			var context = canvas[0].getContext("2d");
 			
-			context.fillStyle   = 'rgba(255, 255, 255, .7)';
-			context.strokeStyle = 'rgba(33, 33, 33, .5)';
+			context.fillStyle   = 'rgba(255, 255, 255, .9)';
+			context.strokeStyle = 'rgba(00, 00, 00, .6)';
 			context.lineWidth   = 1;
 			
 			// Draw a right triangle.
@@ -310,7 +341,7 @@
 			context.stroke();
 			
 			return canvas;
-		}
+		};
 		
 		function add_video(item, asset)
 		{
@@ -328,7 +359,7 @@
 					'src': src
 				});
 			
-			center(item);
+			resize();
 			
 			function pause_video()
 			{
@@ -336,6 +367,8 @@
 				
 				item.find('img, canvas').show();
 				$("video").remove();		
+				
+				resize();
 			};
 			
 			video[0].setAttribute('poster', poster);
@@ -363,62 +396,6 @@
 			return p;
 		};
 		
-		function resize(item)
-		{
-			var max_width = nav.offset().left;
-			var max_height = $(window).height() - ($('cite').outerHeight(true) + $('header').outerHeight(true) + $('footer').outerHeight(true));
-			
-			// Set w/ of container for text-align: center.
-			item.css({
-				'width': max_width,
-				'text-align': 'center'
-			});
-			
-			var media = item.children().eq(0);
-			
-			switch(media[0].nodeName)
-			{
-			case "VIDEO":
-				media.attr({
-					width: max_width,
-					height: max_width * 9 / 16
-				});
-				break;
-				
-			case "IMG":
-				var img = media;
-				var item_width = img.width();
-				var item_height = img.height();
-				
-				if(item_width > max_width)
-				{
-					item_height = max_width * item_height / item_width;
-					item_width = max_width;
-				}
-					
-				if (item_height > max_height)
-				{
-					item_width = max_height * item_width / item_height;
-					item_height = max_height;
-				}
-				
-				img.css('width', item_width);
-				img.css('height', item_height);
-				break;
-				
-			}
-			
-			return media;
-		}
-		
-		function center(item)
-		{			
-			item = resize(item);
-			var item_height = item.height();
-			var max_height = $(window).height() - ($('cite').outerHeight(true) + $('header').outerHeight(true) + $('footer').outerHeight(true));
-				
-			item.css('padding-top', (max_height > item_height) ? (max_height - item_height) / 2 : 0);
-		};
 	};
 
 })(jQuery);
