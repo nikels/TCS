@@ -226,6 +226,7 @@
 			
 			$('<img />')
 				.prependTo(item)
+				.css('display', 'none')
 				.bind('center', function(){
 				
 					size_image($(this));
@@ -248,6 +249,8 @@
 					}
 
 					$('.loading').remove();
+					
+					$(this).fadeIn();
 				})
 				.attr('src', (asset_type == "video" ) ? poster : src);
 				
