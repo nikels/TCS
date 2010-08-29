@@ -111,7 +111,22 @@
 				'text-align': 'center'
 			});
 			
-			$('.item').trigger('center');
+			$('.item').find('video').trigger('center');
+			$('.item').find('img').trigger('center');
+		};
+				
+		function adjust_padding(asset)
+		{
+			var item_height = asset.height();
+			var max_height = $(window).height() - ($('cite').outerHeight(true) + $('header').outerHeight(true) + $('footer').outerHeight(true));
+			var max_width = nav.offset().left;
+			var padding = (max_height > item_height) ? (max_height - item_height) / 2 : 0;
+			asset.css('padding-top', padding);
+			
+			asset.parent().css({
+				'width': max_width,
+				'text-align': 'center'
+			});
 		};
 		
 		function size_video(asset)
@@ -123,23 +138,31 @@
 			});
 		};
 		
-		function size_image(asset)
+		function size_image(img)
 		{
-			alert('sizing image');
-		};
-		
-		function adjust_padding(asset)
-		{
-			var item_height = asset.height();
-			var max_height = $(window).height() - ($('cite').outerHeight(true) + $('header').outerHeight(true) + $('footer').outerHeight(true));
 			var max_width = nav.offset().left;
-			asset.css('padding-top', (max_height > item_height) ? (max_height - item_height) / 2 : 0);
+			var max_height = $(window).height() - ($('cite').outerHeight(true) + $('header').outerHeight(true) + $('footer').outerHeight(true));
+
+			var item_width = img.width();
+			var item_height = img.height();
 			
-			// Set w/ of container for text-align: center.
-			asset.parent().css({
-				'width': max_width,
-				'text-align': 'center'
-			});
+			if(!item_width || !item_width)
+				return;
+			
+			if(item_width > max_width)
+			{
+				item_height = max_width * item_height / item_width;
+				item_width = max_width;
+			}
+				
+			if (item_height > max_height)
+			{
+				item_width = max_height * item_width / item_height;
+				item_height = max_height;
+			}
+			
+			img.attr('width', item_width);
+			img.attr('height', item_height);
 		};
 		
 		function add_citation(asset, caption)
@@ -373,8 +396,7 @@
 					'src': src
 				});
 			
-			size_video(video);
-			adjust_padding(video);
+			video.trigger('center');
 			
 			function remove_video()
 			{
@@ -384,7 +406,7 @@
 				item.find('img, canvas').show();
 				$("video").remove();		
 				
-				adjust_padding(item.find('img'));
+				item.find('img').trigger('center');
 			};
 			
 			video[0].setAttribute('poster', poster);
