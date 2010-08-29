@@ -72,7 +72,7 @@
 
 						build_previous(previous());
 						build_next(next());	
-				});
+					});
 				
 			});
 			
@@ -80,16 +80,6 @@
 			if($(this).parent().hasClass(selected))
 				init($(this));			
 		});
-		
-/*
-		var cache = [];
-		function cache_image(src) {
-			
-			var cached = document.createElement('img');
-			cached.src = src;
-			cache.push(cached);
-		};
-*/
 		
 		function init(current)
 		{	
@@ -115,26 +105,13 @@
 			document.getElementById('wrapper').style.height = wrapperH + 'px';
 			
 			$('section').height($(window).height() - $('header').outerHeight(true) - $('footer').outerHeight(true));
-			
-			$('.item').each(function(i,item){
-				
-				var item = $(item);
-				var asset = item.children().eq(0);
-				var max_width = nav.offset().left;
-				
-				// Set w/ of container for text-align: center.
-				item.parent().css({
-					'width': max_width,
-					'text-align': 'center'
-				});
-				
-				// Set the dimensions of the video
-				if(asset[0].nodeName == "VIDEO")
-					size_video(asset);
-				
-				adjust_padding(asset);
-				
+
+			$('.items').css({
+				'width': nav.offset().left,
+				'text-align': 'center'
 			});
+			
+			$('.item').trigger('center');
 		};
 		
 		function size_video(asset)
@@ -144,6 +121,11 @@
 				width: max_width,
 				height: max_width * 9 / 16
 			});
+		};
+		
+		function size_image(asset)
+		{
+			alert('sizing image');
 		};
 		
 		function adjust_padding(asset)
@@ -221,9 +203,16 @@
 			
 			$('<img />')
 				.prependTo(item)
+				.bind('center', function(){
+				
+					size_image($(this));
+					adjust_padding($(this));
+					
+				})
 				.bind('load', function(){
 				
-					adjust_padding($(this));
+					$(this).trigger('center');
+				
 					add_citation(item, caption);
 					
 					// handle playback 
@@ -328,6 +317,7 @@
 				select(previous());
 				build_previous(previous());
 			});
+			
 		};
 		
 		function draw_play(item) { 
@@ -370,6 +360,12 @@
 			item.find('img, canvas').hide();
 			
 			var video = $('<video/>')
+				.bind('center', function(){
+					
+					size_video($(this));
+					adjust_padding($(this));
+					
+				})
 				.prependTo(item)
 				.attr({
 					'controls': true,
@@ -380,9 +376,10 @@
 			size_video(video);
 			adjust_padding(video);
 			
-			function pause_video()
+			function remove_video()
 			{
-				removeEventListener("pause", pause_video, false);
+				removeEventListener("pause", remove_video, false);
+				removeEventListener("ended", remove_video, false);
 				
 				item.find('img, canvas').show();
 				$("video").remove();		
@@ -393,7 +390,8 @@
 			video[0].setAttribute('poster', poster);
 			video[0].load();
 			video[0].play();
-			video[0].addEventListener('pause', pause_video, false);
+			video[0].addEventListener('pause', remove_video, false);
+			video[0].addEventListener('ended', remove_video, false);
 			
 		};
 		
