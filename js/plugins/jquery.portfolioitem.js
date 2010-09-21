@@ -9,7 +9,7 @@
 		var nav = $('#portfolio nav');	
 		var list = nav.find('ul');
 		var loaded = 0;
-		var scroll = new iScroll('scroller');
+		var scroll = new iScroll('scroller', {desktopCompatibility:true});
 		var len = imgs.length;
 		
 		// Populate data fields based on the actual size after its been loaded.

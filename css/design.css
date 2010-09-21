@@ -26,8 +26,8 @@ footer li { padding: 0 0 0 1px; font-size: 12px; }
 footer li:first-child { padding-left: 5px; }
 
 /* BIOGRAPHY */
-#biography + footer { position: relative; }
-#biography div { margin-left: 145px; margin-right: 80px; margin-top: 10px; margin-bottom: 150px; }
+#biography { display:block; height:200px; position:relative; z-index:1; overflow:hidden; }
+#biography #scroller { margin-left: 145px; margin-right: 80px; padding-top: 10px; padding-bottom: 150px; }
 /* BIOGRAPHY TEXT */
 #biography cite, 
 	#biography description, 
@@ -44,8 +44,8 @@ footer li:first-child { padding-left: 5px; }
 #portfolio nav { background: #000; }
 li.selected { background: url(../img/caret.png) no-repeat left center; }
 
-#wrapper { height:200px; position:absolute; z-index:1; right:0; width:115px; overflow:hidden; text-align:center; }
-#scroller { float:right; width:100%; padding:0; }
 #portfolio { overflow: hidden; }
+#portfolio #wrapper { height:200px; position:absolute; z-index:1; right:0; width:115px; overflow:hidden; text-align:center; }
+#portfolio #scroller { float:right; width:100%; padding:0; }
 #portfolio .items { position: relative; }
 .loading { background: url(../img/loading.gif); }
