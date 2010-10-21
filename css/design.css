@@ -1,4 +1,4 @@
-body { background-color: #000; -webkit-animation-name: fadeIn; -webkit-animation-duration: 2s;	-webkit-animation-timing-function: ease-in-out; }
+body, body.fadeIn { background-color: #000; -webkit-animation-name: fadeIn; -webkit-animation-duration: 2s;	-webkit-animation-timing-function: ease-in-out; }
 body.fadeOut { background-color: #000; -webkit-animation-name: fadeOut; -webkit-animation-duration: 2s;	-webkit-animation-timing-function: ease-in-out; }
 /* WEBKIT ONLY FADE IN */
 @-webkit-keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }

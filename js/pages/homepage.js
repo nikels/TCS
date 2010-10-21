@@ -3,7 +3,7 @@ $(function()
 	var h1	= $('h1').eq(0);
 	var header = $('header').eq(0);
 	var footer = $('footer').eq(0);
-	var body = $('body').eq(0);
+	var body = $('body').eq(0).attr('class', 'fadeIn');
 	var links = $('#homepage').find('a');
 	var list_items = $('li');
 	
@@ -19,55 +19,7 @@ $(function()
 	var h1_left = pos.left;
 	
 	var timeout;
-	
-	/*
-	var body = document.getElementsByTagName('body')[0];
-	
-	var lastSheet = document.styleSheets[document.styleSheets.length - 1];
-	lastSheet.insertRule("@-webkit-keyframes starting_keyframes { from { background-color: #000; } to { background-color: " + bg_colors[0] + "; } }", lastSheet.cssRules.length);
-	body.style.webkitAnimationName = 'starting_keyframes';
-	body.style.backgroundColor = bg_colors[0];
-	body.style.webkitAnimationDuration = '4s';
-	body.style.webkitAnimationIterationCount = 'infinite';
-	var _i = 0;
-	var found = false;
-
-	body.addEventListener('webkitAnimationIteration', 
-		function(){
 		
-			if(_i == bg_colors.length)
-				_i = 0;
-			
-			var from = bg_colors[_i];
-			var to   = bg_colors[_i+1] || bg_colors[0];
-			var rule_name = 'animation'+_i;
-			var regexp = new RegExp(rule_name);
-			
-			if(!found)
-			{
-				for(var i = lastSheet.cssRules.length-1; i >= 0; i--)
-				{
-					var css_text = lastSheet.cssRules[i].cssText;
-					if(regexp.test(css_text))
-					{
-						found = true;
-						break;
-					}
-				}
-
-				var newRule = "@-webkit-keyframes " + rule_name + " { from { background-color: " + from + "; } to { background-color: " + to + "; } }";		
-				lastSheet.insertRule(newRule, lastSheet.cssRules.length);
-			}
-			
-			body.style.backgroundColor = to;
-			body.style.webkitAnimationName = rule_name;
-			
-			_i++;
-			
-		} , false);
-	*/
-	
-	
 	header.height(header.height());
 			
 	h1.wrap("<div/>");
@@ -110,7 +62,7 @@ $(function()
 						body.attr('class', 'fadeOut');
 						
 						setTimeout(function(){
-							body.css('opacity', 0);
+							body.attr('class', '');
 							document.location = item.attr("href");
 				    	}, 1500);
 			    	}
@@ -119,7 +71,6 @@ $(function()
 			});
 		});
 	});
-	
 
 	setInterval(function()
 	{
