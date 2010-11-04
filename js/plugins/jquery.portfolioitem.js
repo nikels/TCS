@@ -13,6 +13,7 @@
 		var scrollers_count = 0;
 		var len = imgs.length;
 		var max = 0;
+		Cufon.set('fontWeight', '500');
 		
 		// Populate data fields based on the actual size after its been loaded.
 		imgs.bind('load', function(){
@@ -66,10 +67,12 @@
 			if(asset_type == "textasset")
 			{	
 				var src = $(this).attr('data-display');
+				var caption = $(this).attr('data-caption');
+				
 				clickon = $("<a/>")
 					.attr("href", 'javascript:void(0);')
 					.attr('class', 'text-asset')
-					.text(src.substr(0, src.indexOf("\u2026")+1))
+					.text(caption)
 					.insertBefore($(this));
 					
 				Cufon.refresh('.text-asset');
@@ -264,17 +267,17 @@
 					.attr('id', scroller_id)
 					.prependTo(wrapper);
 					
-				var Ps = src.replace(/(\u2026)\W+(\u2026)/, '$1</p><p class="scroll-text">$2');
-				scrolling.html('<p class="scroll-text">' + Ps + '</p>');
+				var Ps = src.replace(/\n/, '</p><p>');
+				scrolling.html('<p>' + Ps + '</p>');
 				
-				Cufon.set('fontWeight', '500');
-				Cufon.replace('.scroll-text');
-				
-				$('.loading').remove();
-				
-				new iScroll(scroller_id, { desktopCompatibility:true });
+				setTimeout(function(){
+					Cufon.replace('.text-scroller');				
+					new iScroll(scroller_id, { desktopCompatibility:true });
+				}, 0);
 				
 				resize();
+				
+				$('.loading').remove();
 			}				
 			else
 			{
@@ -334,7 +337,6 @@
 		
 		function move_left()
 		{
-			
 			// only one video at a time
 			$('video').remove();
 			

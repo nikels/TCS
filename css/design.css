@@ -54,4 +54,4 @@ footer li:first-child { padding-left: 5px; }
 /*  */
 .text-wrapper { height:200px; position:relative; z-index:1; overflow:hidden; }
 .text-scroller { margin-left: 145px; margin-right: 220px; padding-top: 10px; }
-.scroll-text {  font-family: Georgia; font-weight: 100; font-size: 18px; color: #fefefe; line-height: 24px; text-align: justify; word-spacing: .05em; padding-bottom: 20px; }
+.text-scroller p { font-family: Georgia; font-weight: 100; font-size: 18px; color: #fefefe; line-height: 24px; text-align: justify; word-spacing: .05em; padding-bottom: 20px; }
