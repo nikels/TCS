@@ -3,7 +3,7 @@ $(function()
 	var h1	= $('h1').eq(0);
 	var header = $('header').eq(0);
 	var footer = $('footer').eq(0);
-	var body = $('body').eq(0).attr('class', 'fadeIn');
+	var body = $('body').eq(0);
 	var links = $('#homepage').find('a');
 	var list_items = $('li');
 	
@@ -58,8 +58,6 @@ $(function()
 			    		header.stop();
 						footer.stop();
 						h1.stop();
-						
-						body.attr('class', 'fadeOut');
 						
 						setTimeout(function(){
 							body.attr('class', '');

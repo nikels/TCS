@@ -10,16 +10,21 @@
 		var list = nav.find('ul');
 		var loaded = 0;
 		var scroll = new iScroll('scroller', {desktopCompatibility:true});
+		var scrollers_count = 0;
 		var len = imgs.length;
+		var max = 0;
 		
 		// Populate data fields based on the actual size after its been loaded.
 		imgs.bind('load', function(){
-			$(this).attr('data-width', this.width);
-			$(this).attr('data-height', this.height);
 			
 			var _h = 50;
 			var _r = _h/this.height;
 			var _w = Math.round(this.width * _r);
+
+			max = Math.max(_w, max);
+			$(this).bind('position', function(){
+				$(this).css('padding-left', ((max - $(this).attr('width')) / 2) +'px');
+			});
 			
 			$(this).attr('data-width', this.width);
 			$(this).attr('data-height', this.height);
@@ -34,6 +39,7 @@
 			loaded++;
 			if(loaded==len)
 			{
+				imgs.trigger('position');
 				$('.item').animate({opacity: 1})
 				nav.animate({opacity: 1});
 			}
@@ -42,37 +48,54 @@
 		
 		// Listen for adjusts in orientation and size.
 		window.addEventListener('onorientationchange' in window ? 'orientationchange' : 'resize', resize, false);
-		/* 	document.addEventListener('touchmove', function(e){ e.preventDefault(); }, false); */
-
+			
+		// Moves screens right and left.
 		$(".items").touchwipe({
 			wipeLeft: move_left,
 			wipeRight: move_right,
-/*			wipeUp: move_up,
-			wipeDown: move_down, */
 			min_move: 100,
 			preventDefaultEvents: true
 		});	
 	
 		return this.each(function()
 		{	
-			$(this).click(function(){
+			var asset_type = $(this).attr('data-asset-type');
+			var that = $(this);
+			var clickon = $(this);
+			
+			if(asset_type == "textasset")
+			{	
+				var src = $(this).attr('data-display');
+				clickon = $("<a/>")
+					.attr("href", 'javascript:void(0);')
+					.attr('class', 'text-asset')
+					.text(src.substr(0, src.indexOf("\u2026")+1))
+					.insertBefore($(this));
+					
+				Cufon.refresh('.text-asset');
+					
+				$(this).hide();
+			}
+		
+			clickon.click(function(){
 				
-				var li = build_current($(this));
+				select(that);
+				var li = build_current(that);
 				li.siblings().remove();
 				
-				var img = li.find('img');
-				var that = $(this);
-				
-				img
-					.css('display', 'none')
-					.bind('load', function(){
-						img.fadeIn('fast');	
-						
-						select(that);
-
-						build_previous(previous());
-						build_next(next());	
-					});
+				if(asset_type != "textasset")
+					li.find('img')
+						.css('display', 'none')
+						.bind('load', function(){
+							$(this).fadeIn('fast');	
+							build_previous(previous());
+							build_next(next());	
+						});				
+				else
+				{
+					build_previous(previous());
+					build_next(next());	
+				}
 				
 			});
 			
@@ -102,7 +125,12 @@
 			var headerH = document.getElementsByTagName('header')[0].offsetHeight;
 			var footerH = document.getElementsByTagName('footer')[0].offsetHeight;
 			var wrapperH = window.innerHeight - headerH - footerH;
-			document.getElementById('wrapper').style.height = wrapperH + 'px';
+
+			document.getElementById('wrapper').style.height = wrapperH + 'px';			
+
+			$('.text-wrapper').each(function(){
+				$(this).css('height', wrapperH);
+			});
 			
 			$('section').height($(window).height() - $('header').outerHeight(true) - $('footer').outerHeight(true));
 
@@ -224,67 +252,81 @@
 				.css('width', $(window).width())
 				.appendTo('.items');
 			
-			$('<img />')
-				.prependTo(item)
-				.css('display', 'none')
-				.bind('center', function(){
+			if(asset_type == "textasset")
+			{	
+				var wrapper = $('<div/>')
+					.attr('class', 'text-wrapper')
+					.prependTo(item);
 				
-					size_image($(this));
-					adjust_padding($(this));
+				var scroller_id = 'textscroller'+scrollers_count++;
+				var scrolling = $('<div/>')
+					.attr('class', 'text-scroller')
+					.attr('id', scroller_id)
+					.prependTo(wrapper);
 					
-				})
-				.bind('load', function(){
+				var Ps = src.replace(/(\u2026)\W+(\u2026)/, '$1</p><p class="scroll-text">$2');
+				scrolling.html('<p class="scroll-text">' + Ps + '</p>');
 				
-					$(this).trigger('center');
+				Cufon.set('fontWeight', '500');
+				Cufon.replace('.scroll-text');
 				
-					add_citation(item, caption);
+				$('.loading').remove();
+				
+				new iScroll(scroller_id, { desktopCompatibility:true });
+				
+				resize();
+			}				
+			else
+			{
+				$('<img />')
+					.prependTo(item)
+					.css('display', 'none')
+					.bind('center', function(){
 					
-					// handle playback 
-					if(asset_type == "video")
-					{
-						var play_button = draw_play(item);
-						play_button.click(function(){
-							add_video(item, asset);				
-						})
-					}
-
-					$('.loading').remove();
-					
-					$(this).fadeIn();
-				})
-				.attr('src', (asset_type == "video" ) ? poster : src);
-				
-				$('<div/>')
-					.css({
-						width: 32,
-						height: 32,
-						position: 'absolute',
-						top: ($(window).height() / 2) - 16,
-						left: (nav.offset().left / 2) - 16
+						size_image($(this));
+						adjust_padding($(this));
+						
 					})
-					.addClass('loading')
-					.prependTo($('body'));
+					.bind('load', function(){
+					
+						$(this).trigger('center');
+					
+						add_citation(item, caption);
+						
+						// handle playback 
+						if(asset_type == "video")
+							$(this).click(function(){
+								add_video(item, asset);							
+							});
+	
+						$('.loading').remove();
+						
+						$(this).fadeIn();
+					})
+					.attr('src', (asset_type == "video" ) ? poster : src);
+					
+					$('<div/>')
+						.css({
+							width: 32,
+							height: 32,
+							position: 'absolute',
+							top: ($(window).height() / 2) - 16,
+							left: (nav.offset().left / 2) - 16
+						})
+						.addClass('loading')
+						.prependTo($('body'));
+			}			
 			
 			return item;
 			
 		};
 		
-/*
-		function move_up()
-		{
-			alert('up');
-		};
-		
-		function move_down()
-		{
-			alert('down');
-		};
-*/
-		
 		function select(item)
 		{
 			item.parent().siblings().removeClass(selected);
 			item.parent().addClass(selected);
+			
+			Cufon.refresh('.text-asset');
 			
 			//scroll.scrollTo(scrollToElement("CSS3 selector", '400ms'));
 			scroll.scrollToElement(".selected", '400ms');
@@ -308,19 +350,18 @@
 				$(this).attr('class', 'item previous');
 			});
 			
+			select(next());
 			$(".next").animate({
 				left: '-='+$(window).width()
 			},'slow', function(){
-				$(this).attr('class', 'item current');
-				select(next());				
+				$(this).attr('class', 'item current');				
 				build_next(next());
 			});
 			
 		};
 		
 		function move_right()
-		{
-				
+		{	
 			// only one video at a time
 			$('video').remove();
 			
@@ -336,47 +377,16 @@
 				$(this).attr('class', 'item next');
 			});
 			
+			select(previous());
 			$(".previous").animate({
 				left: '+='+$(window).width()
 			},'slow', function(){
 				$(this).attr('class', 'item current');
-				select(previous());
 				build_previous(previous());
 			});
 			
 		};
-		
-		function draw_play(item) { 
-			var h_high = item.find('img').height() - 50;
-			
-			var canvas = $('<canvas/>')
-				.css({
-					position: 'relative',
-					top: -1 * h_high
-				})
-				.attr('width',75)
-				.attr('height',100)
-				.appendTo(item);
-			
-			var context = canvas[0].getContext("2d");
-			
-			context.fillStyle   = 'rgba(255, 255, 255, .9)';
-			context.strokeStyle = 'rgba(00, 00, 00, .6)';
-			context.lineWidth   = 1;
-			
-			// Draw a right triangle.
-			context.beginPath();
-			context.moveTo(0, 0);
-			context.lineTo(75, 50);
-			context.lineTo(0, 100);
-			context.lineTo(0, 0);
-			context.closePath();
-			context.fill();
-			context.stroke();
-			
-			return canvas;
-		};
-		
+
 		function add_video(item, asset)
 		{
 			
@@ -433,7 +443,7 @@
 		{
 			var p = $('.'+selected).prev().find('img');
 			if(p.length==0)
-				p = $(imgs.eq(imgs.length-1));
+				p = $(imgs.eq(len-1));
 					
 			return p;
 		};

@@ -1,5 +1,4 @@
-body, body.fadeIn { background-color: #000; -webkit-animation-name: fadeIn; -webkit-animation-duration: 2s;	-webkit-animation-timing-function: ease-in-out; }
-body.fadeOut { background-color: #000; -webkit-animation-name: fadeOut; -webkit-animation-duration: 2s;	-webkit-animation-timing-function: ease-in-out; }
+body { background-color: #000; -webkit-animation-name: fadeIn; -webkit-animation-duration: 2s;	-webkit-animation-timing-function: ease-in-out; }
 /* WEBKIT ONLY FADE IN */
 @-webkit-keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @-webkit-keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
@@ -40,12 +39,19 @@ footer li:first-child { padding-left: 5px; }
 /* VIDEO AND PORTFOLIO CITATION */
 .media cite { display:block; font-style: italic; text-align: center; font-size: 12px; color: #c6c6c6; }
 
-#portfolio nav li { display: block; height:60px; line-height:60px; overflow: hidden; }
 #portfolio nav { background: #000; }
-li.selected { background: url(../img/caret.png) no-repeat left center; }
+#portfolio nav li { display: block; overflow: hidden; padding: 5px 0;}
+#portfolio nav li img { margin-left: 25px; }
+#portfolio nav li.selected { background: url(../img/caret.png) no-repeat left center; }
+#portfolio nav li.selected a { color: #fff; }
+#portfolio nav li a { display:block; color: #777; font-size: 12px; text-align: left; font-family: Georgia; font-weight:300; margin: 5px 10px 5px 25px; }
 
 #portfolio { overflow: hidden; }
-#portfolio #wrapper { height:200px; position:absolute; z-index:1; right:0; width:115px; overflow:hidden; text-align:center; }
+#portfolio #wrapper { height:200px; position:absolute; z-index:1000; right:0; width: 190px; overflow:hidden; padding: 0; margin-left: 20px; }
 #portfolio #scroller { float:right; width:100%; padding:0; }
 #portfolio .items { position: relative; }
 .loading { background: url(../img/loading.gif); }
+/*  */
+.text-wrapper { height:200px; position:relative; z-index:1; overflow:hidden; }
+.text-scroller { margin-left: 145px; margin-right: 220px; padding-top: 10px; }
+.scroll-text {  font-family: Georgia; font-weight: 100; font-size: 18px; color: #fefefe; line-height: 24px; text-align: justify; word-spacing: .05em; padding-bottom: 20px; }
