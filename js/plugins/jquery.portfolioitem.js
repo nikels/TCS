@@ -13,7 +13,6 @@
 		var scrollers_count = 0;
 		var len = imgs.length;
 		var max = 0;
-		Cufon.set('fontWeight', '500');
 		
 		// Populate data fields based on the actual size after its been loaded.
 		imgs.bind('load', function(){
@@ -75,8 +74,6 @@
 					.text(caption)
 					.insertBefore($(this));
 					
-				Cufon.refresh('.text-asset');
-					
 				$(this).hide();
 			}
 		
@@ -96,6 +93,10 @@
 						});				
 				else
 				{
+					li
+						.css('display', 'none')
+						.fadeIn('fast');
+						
 					build_previous(previous());
 					build_next(next());	
 				}
@@ -119,7 +120,7 @@
 			
 			resize();
 			
-			scroll.scrollToElement(".selected", '400ms');
+			focus();
 		};
 		
 		// Scroll setup
@@ -271,13 +272,10 @@
 				scrolling.html('<p>' + Ps + '</p>');
 				
 				setTimeout(function(){
-					Cufon.replace('.text-scroller');				
 					new iScroll(scroller_id, { desktopCompatibility:true });
 				}, 0);
 				
 				resize();
-				
-				$('.loading').remove();
 			}				
 			else
 			{
@@ -329,10 +327,14 @@
 			item.parent().siblings().removeClass(selected);
 			item.parent().addClass(selected);
 			
-			Cufon.refresh('.text-asset');
-			
-			//scroll.scrollTo(scrollToElement("CSS3 selector", '400ms'));
-			scroll.scrollToElement(".selected", '400ms');
+			focus();
+				
+		};
+		
+		function focus()
+		{
+			if($('#wrapper').height() <= $('#scroller').height())
+				scroll.scrollToElement(".selected", '400ms');
 		};
 		
 		function move_left()

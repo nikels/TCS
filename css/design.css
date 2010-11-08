@@ -25,7 +25,7 @@ footer li { padding: 0 0 0 1px; font-size: 12px; }
 footer li:first-child { padding-left: 5px; }
 
 /* BIOGRAPHY */
-#biography { display:block; height:200px; position:relative; z-index:1; overflow:hidden; }
+#biography { display:block; height: 50px; position:relative; z-index:1; overflow:hidden; }
 #biography #scroller { margin-left: 145px; margin-right: 80px; padding-top: 10px; padding-bottom: 150px; }
 /* BIOGRAPHY TEXT */
 #biography cite, 
@@ -47,7 +47,7 @@ footer li:first-child { padding-left: 5px; }
 #portfolio nav li a { display:block; color: #777; font-size: 12px; text-align: left; font-family: Georgia; font-weight:300; margin: 5px 10px 5px 25px; }
 
 #portfolio { overflow: hidden; }
-#portfolio #wrapper { height:200px; position:absolute; z-index:1000; right:0; width: 190px; overflow:hidden; padding: 0; margin-left: 20px; }
+#portfolio #wrapper { background: #000; height: 50px; position:absolute; z-index:1000; right:0; width: 190px; overflow:hidden; padding: 0; margin-left: 20px; }
 #portfolio #scroller { float:right; width:100%; padding:0; }
 #portfolio .items { position: relative; }
 .loading { background: url(../img/loading.gif); }
